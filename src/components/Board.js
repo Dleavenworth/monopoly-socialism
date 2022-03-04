@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 
 const gridSize = 9
-let templateString = 'repeat(" + gridSize + ", 0fr)'
+let templateString = 'repeat(' + gridSize + ', 0fr)'
 
 export default function Board() {
     let squares = []
@@ -31,19 +31,21 @@ export default function Board() {
 
             const square = {
                 col: col,
-                row: row
+                row: row,
+                player: false
             }
             
             squares.push(square)
         }
 
+        console.log(templateString)
         return squares.map((curSquare, i) => {
             return <Cell key={i} row={curSquare.row} column={curSquare.col}/>
         })
     }
 
     return (
-        <Box sx={{display: "grid", gap: 0, gridTemplateColumns: 'repeat(9, 0fr)', gridTemplateRows: 'repeat(9, 0fr'}}>
+        <Box sx={{display: "grid", gap: 0, gridTemplateColumns: templateString, gridTemplateRows: templateString}}>
             {makeBoard()}
         </Box>
     )
