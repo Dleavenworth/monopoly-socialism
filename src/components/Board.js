@@ -62,24 +62,24 @@ const Board = () => {
 	};
 
     const rollDie = () => {
-        let firstD6 = Math.floor(Math.random()*6) + 1
-        let secondD6 = Math.floor(Math.random()*6) + 1
+        let movementDie = Math.floor(Math.random()*6) + 1
+        let actionDie = Math.floor(Math.random()*6) + 1
         
         //Doubles movement, Draw chance card, draw two chance cards 
         //Other numbers are 2 3 and 4
         
-        switch(secondD6) {
+        switch(actionDie) {
             case 1:
-                firstD6 = firstD6*2;
+                movementDie = movementDie*2;
                 break;
             case 2:
-                firstD6 = firstD6 + 2;
+                movementDie = movementDie + 2;
                 break;
             case 3:
-                firstD6 = firstD6 + 3;
+                movementDie = movementDie + 3;
                 break;
             case 4:
-                firstD6 = firstD6 + 4;
+                movementDie = movementDie + 4;
                 break;
             case 5:
                 console.log("draw chance!")
@@ -91,7 +91,7 @@ const Board = () => {
                 console.log("Something went wrong here")
                 break;
         }
-        return firstD6;
+        return movementDie;
     }
 
 	const movePlayer = () => {
