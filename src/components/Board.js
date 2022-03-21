@@ -41,30 +41,6 @@ const Board = () => {
 
     const [squares, setSquares] = useState(makeBoard());
 
-    useEffect(() =>{
-		console.log(players)
-        console.log(curPlayerTurn.current)
-        // Run this code after playerLoc is updated in movePlayer, that is, once playerLoc is incremented by 1 run this code
-        // There might be a better way to do this but I couldn't find one
-        let newSquares = squares
-        let newSquare = squares[players[curPlayerTurn.current].location];
-        //newSquare.player = true;
-        newSquares[players[curPlayerTurn.current].location] = newSquare;
-        console.log(newSquares);
-        setSquares([...newSquares]);
-
-        if(curPlayerTurn === 4) {
-		    curPlayerTurn.current = 1;
-        }
-        else {
-            curPlayerTurn.current++;
-        }
-
-        //console.log("MOVING CODE");
-        //console.log(squareRefs.current[playerLoc]);
-        //console.log("Playerloc is: " + playerLoc);
-    }, [players])
-
     // Make an array of booleans where the index corresponds to each cell, then set the player field to this boolean and change the boolean whenever the player moves
     const displaySquares = () => {
         //console.log(squares);
@@ -89,29 +65,20 @@ const Board = () => {
     }, [squares]);
 
     const movePlayer = () => {
-        //console.log("Playerloc is: " + players[curPlayerTurn].location);
-        let newSquare = squares[players[curPlayerTurn.current].location];
-        //newSquare.player = false;
-        let newSquares = squares;
-        newSquares[players[curPlayerTurn.current].location] = newSquare;
-        //setSquares(newSquares)
-
+        console.log("Player moving is: " + curPlayerTurn.current)
+        console.log(players[curPlayerTurn.current-1])
 		let newPlayers = players
 
-		newPlayers[curPlayerTurn.current].location++;
+		newPlayers[curPlayerTurn.current-1].location++;
 
         setPlayers([...newPlayers]);
 
-        /*newSquare = squares[playerLoc];
-        newSquare.player = true;
-        newSquares[playerLoc] = newSquare;
-        console.log(newSquares);
-        setSquares([...newSquares]);
-
-        console.log("MOVING CODE");
-        console.log(squareRefs.current[playerLoc]);
-        console.log("Playerloc is: " + playerLoc);*/
-        //console.log(squares)
+        if(curPlayerTurn.current >= 4) {
+		    curPlayerTurn.current = 1;
+        }
+        else {
+            curPlayerTurn.current++;
+        }
     };
 
     return (
@@ -131,17 +98,3 @@ const Board = () => {
     );
 };
 export default Board;
-
-/*----------------------------------------------------------------
-{squares ? squares.map((curSquare, i) => {
-			return (
-				    <Cell
-                        key={i}
-					    player={squares[i].player}
-                        ref={el => (squareRefs.current = [...squareRefs.current, el])}
-					    row={curSquare.row}
-					    column={curSquare.col}
-				    />
-			)
-		}) : console.log(typeof squares)}
-        */
