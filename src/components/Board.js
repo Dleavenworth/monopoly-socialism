@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react"
+import React, {useEffect, useRef, useState, useMemo} from "react"
 import Cell from "./Cell"
 import { Button, Box } from "@mui/material"
 
@@ -7,8 +7,12 @@ const Board = () => {
     let playerLoc = 1
     const gridSize = 9
     let templateString = "repeat(" + gridSize + ", 0fr)"
-	let squares = []
+	const [squares, setSquares] = useState([])
     let squareRefs = useRef([])
+
+	useEffect(() => {
+		makeBoard()
+	}, [])
 
 	const makeBoard = () => {
 		let col = 1
@@ -33,17 +37,24 @@ const Board = () => {
 				player: i === 1 ? true : false,
 			}
 
-			squares.push(square)
+			let newSquares = squares
+			newSquares.push(square)
+
+			console.log("updated new squares")
+
+			setSquares(newSquares)
 		}
-        return displaySquares()
+        //return displaySquares()
 	}
+
+	// Make an array of booleans where the index corresponds to each cell, then set the player field to this boolean and change the boolean whenever the player moves
 		const displaySquares = () => {
             console.log(squares)
             return squares.map((curSquare, i) => {
 			return (
 				    <Cell
                         key={i}
-					    player={curSquare.player}
+					    player={squares[i].player}
                         ref={el => (squareRefs.current = [...squareRefs.current, el])}
 					    row={curSquare.row}
 					    column={curSquare.col}
@@ -53,10 +64,19 @@ const Board = () => {
     }
 
         const movePlayer = () => {
-            squares[playerLoc] = false
+
+			let newSquare = squares[playerLoc]
+			newSquare.player = false
+			setSquares(newSquare)
+
             playerLoc++
-            squares[playerLoc] = true
-            console.log(squareRefs)
+
+			newSquare = squares[playerLoc]
+			newSquare.player = true
+			setSquares(newSquare)
+
+            console.log(squareRefs.current[playerLoc])
+			console.log(squares)
         }
 
 	return (
@@ -70,7 +90,17 @@ const Board = () => {
 					gridTemplateRows: templateString,
 				}}
 			>
-				{makeBoard()}
+            {squares.map((curSquare, i) => {
+			return (
+				    <Cell
+                        key={i}
+					    player={squares[i].player}
+                        ref={el => (squareRefs.current = [...squareRefs.current, el])}
+					    row={curSquare.row}
+					    column={curSquare.col}
+				    />
+			)
+		})}
 			</Box>
 		</Box>
 	)
