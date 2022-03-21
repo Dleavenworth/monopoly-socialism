@@ -4,9 +4,10 @@ import { Button, Box } from "@mui/material";
 
 const Board = () => {
     const gridSize = 9;
-    const [playerLoc, setPlayerLoc] = useState(1);
+    const [players, setPlayers] = useState([{num: 1, location: 1}, {num: 2, location: 1}, {num: 3, location: 1}, {num: 4, location: 1}]);
     let templateString = "repeat(" + gridSize + ", 0fr)";
     let squareRefs = useRef([]);
+	const curPlayerTurn = useRef(1);
 
 
     const makeBoard = () => {
@@ -30,7 +31,7 @@ const Board = () => {
             const square = {
                 col: col,
                 row: row,
-                player: i === 1 ? true : false,
+                //player: i === 1 ? true : false,
             };
 
             newSquares.push(square);
@@ -41,19 +42,28 @@ const Board = () => {
     const [squares, setSquares] = useState(makeBoard());
 
     useEffect(() =>{
+		console.log(players)
+        console.log(curPlayerTurn.current)
         // Run this code after playerLoc is updated in movePlayer, that is, once playerLoc is incremented by 1 run this code
         // There might be a better way to do this but I couldn't find one
         let newSquares = squares
-        let newSquare = squares[playerLoc];
-        newSquare.player = true;
-        newSquares[playerLoc] = newSquare;
+        let newSquare = squares[players[curPlayerTurn.current].location];
+        //newSquare.player = true;
+        newSquares[players[curPlayerTurn.current].location] = newSquare;
         console.log(newSquares);
         setSquares([...newSquares]);
 
-        console.log("MOVING CODE");
-        console.log(squareRefs.current[playerLoc]);
-        console.log("Playerloc is: " + playerLoc);
-    }, [playerLoc])
+        if(curPlayerTurn === 4) {
+		    curPlayerTurn.current = 1;
+        }
+        else {
+            curPlayerTurn.current++;
+        }
+
+        //console.log("MOVING CODE");
+        //console.log(squareRefs.current[playerLoc]);
+        //console.log("Playerloc is: " + playerLoc);
+    }, [players])
 
     // Make an array of booleans where the index corresponds to each cell, then set the player field to this boolean and change the boolean whenever the player moves
     const displaySquares = () => {
@@ -62,7 +72,8 @@ const Board = () => {
             return (
                 <Cell
                     key={i}
-                    player={squares[i].player}
+					squareNum={i}
+                    players={players}
                     ref={(el) =>
                         (squareRefs.current = [...squareRefs.current, el])
                     }
@@ -78,14 +89,18 @@ const Board = () => {
     }, [squares]);
 
     const movePlayer = () => {
-        console.log("Playerloc is: " + playerLoc);
-        let newSquare = squares[playerLoc];
-        newSquare.player = false;
+        //console.log("Playerloc is: " + players[curPlayerTurn].location);
+        let newSquare = squares[players[curPlayerTurn.current].location];
+        //newSquare.player = false;
         let newSquares = squares;
-        newSquares[playerLoc] = newSquare;
+        newSquares[players[curPlayerTurn.current].location] = newSquare;
         //setSquares(newSquares)
 
-        setPlayerLoc(playerLoc + 1);
+		let newPlayers = players
+
+		newPlayers[curPlayerTurn.current].location++;
+
+        setPlayers([...newPlayers]);
 
         /*newSquare = squares[playerLoc];
         newSquare.player = true;
