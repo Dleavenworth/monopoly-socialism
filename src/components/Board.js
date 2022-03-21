@@ -61,16 +61,52 @@ const Board = () => {
 		});
 	};
 
-	useEffect(() => {
-		console.log(squares);
-	}, [squares]);
+    const rollDie = () => {
+        let firstD6 = Math.floor(Math.random()*6) + 1
+        let secondD6 = Math.floor(Math.random()*6) + 1
+        
+        //Doubles movement, Draw chance card, draw two chance cards 
+        //Other numbers are 2 3 and 4
+        
+        switch(secondD6) {
+            case 1:
+                firstD6 = firstD6*2;
+                break;
+            case 2:
+                firstD6 = firstD6 + 2;
+                break;
+            case 3:
+                firstD6 = firstD6 + 3;
+                break;
+            case 4:
+                firstD6 = firstD6 + 4;
+                break;
+            case 5:
+                console.log("draw chance!")
+                break;
+            case 6:
+                console.log("draw two chance!")
+                break;
+            default:
+                console.log("Something went wrong here")
+                break;
+        }
+        return firstD6;
+    }
 
 	const movePlayer = () => {
-		console.log("Player moving is: " + curPlayerTurn.current);
-		console.log(players[curPlayerTurn.current - 1]);
+		console.log(curPlayerTurn.current)
+        console.log(players.length)
+        console.log(players[curPlayerTurn.current-1].location)
+        let numToMove = rollDie()
 		let newPlayers = players;
 
-		newPlayers[curPlayerTurn.current - 1].location++;
+        if(newPlayers[curPlayerTurn.current-1].location + numToMove >= squares.length) {
+            newPlayers[curPlayerTurn.current-1].location = squares.length-numToMove;
+        }
+        else {
+		    newPlayers[curPlayerTurn.current - 1].location += numToMove;
+        }
 
 		setPlayers([...newPlayers]);
 
@@ -80,6 +116,7 @@ const Board = () => {
 			curPlayerTurn.current++;
 		}
 	};
+
 
 	return (
 		<Box>
