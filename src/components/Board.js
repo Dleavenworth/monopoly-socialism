@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useMemo, useReducer } from "react";
 import Cell from "./Cell";
 import { Button, Box } from "@mui/material";
 import NewPropertyAlert from "./NewPropertyAlert";
+import cellTypes from "../CellTypes";
 
 const Board = () => {
     const gridSize = 9;
@@ -20,25 +21,24 @@ const Board = () => {
     const makeBoard = () => {
         let col = 1;
         let row = 2;
-
-        const totalSquares = gridSize * 2 + (gridSize - 2) * 2;
         let newSquares = [];
-        let curType = "Cell";
+        let curType = cellTypes.Cell;
+        const totalSquares = gridSize * 2 + (gridSize - 2) * 2;
 
         for (let i = 0; i < totalSquares; i++) {
             //0 8 16 24
             if (i === 0) {
-                curType = "Start";
+                curType = cellTypes.Start;
             } else if (i === gridSize - 1) {
-                curType = "GoToJail";
+                curType = cellTypes.GoToJail;
             } else if (i === gridSize * 2 - 2) {
-                curType = "Go";
+                curType = cellTypes.Go;
             } else if (i === gridSize * 3 - 3) {
-                curType = "Jail";
+                curType = cellTypes.Jail;
             } else if (i % 2 === 0) {
-                curType = "Property";
+                curType = cellTypes.Property;
             } else if (i % 2 !== 0) {
-                curType = "Chance";
+                curType = cellTypes.Chance;
             } else {
                 throw new Error("Invalid value for i in makeBoard");
             }
@@ -143,22 +143,22 @@ const Board = () => {
 
     const handleMove = () => {
         switch (squares[players[curPlayerTurn.current - 1].location].type) {
-            case "Start":
+            case cellTypes.Start:
                 break;
-            case "GoToJail":
+            case cellTypes.GoToJail:
                 console.log("Going to jail");
                 break;
-            case "Go":
+            case cellTypes.Go:
                 console.log("Passing go, get money!");
                 break;
-            case "Jail":
+            case cellTypes.Jail:
                 console.log("At jail");
                 break;
-            case "Property":
+            case cellTypes.Property:
                 openPropertyAlert();
                 console.log("At property");
                 break;
-            case "Chance":
+            case cellTypes.Chance:
                 console.log("At chance");
                 break;
             default:
@@ -179,10 +179,12 @@ const Board = () => {
 
     const handleNewPropertyAccept = () => {
         console.log("Accept new property");
+        setPropertyAlert(false);
     };
 
     const handleNewPropertyDecline = () => {
         console.log("Reject new property");
+        setPropertyAlert(false);
     };
 
     return (
