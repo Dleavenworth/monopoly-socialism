@@ -42,6 +42,7 @@ const Game = () => {
                 curDescription = PropertyTypes.getPropList()[propertyCounter];
                 propertyCounter++;
             } else if (i % 2 !== 0) {
+                // Add description for chance cards here
                 curType = CellTypes.Chance;
             } else {
                 throw new Error("Invalid value for i in makeBoard");
@@ -86,12 +87,14 @@ const Game = () => {
         console.log("Accept new property");
         let newPlayers = players;
         let newSquares = squares;
-        newPlayers[playerGettingProperty.current].properties.push(
-            squares[newPlayers[playerGettingProperty.current].location]
+        newPlayers[playerGettingProperty.current-1].properties.push(
+            squares[newPlayers[playerGettingProperty.current-1].location]
                 .description
         );
+        console.log(players[playerGettingProperty.current-1].location)
+        console.log(playerGettingProperty.current)
         newSquares[
-            players[playerGettingProperty.current].location
+            players[playerGettingProperty.current-1].location
         ].purchased = true;
         setPropertyAlert(false);
         setPlayers(newPlayers);

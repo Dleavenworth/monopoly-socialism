@@ -2,12 +2,6 @@ import React, { useEffect, forwardRef } from "react";
 import { Box, List, ListItem } from "@mui/material";
 
 const Cell = forwardRef((props, ref) => {
-    useEffect(() => {
-        console.log("player changed");
-    }, [props]);
-
-    console.log(props);
-
     return (
         <Box
             ref={ref}
