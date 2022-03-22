@@ -6,7 +6,7 @@ const Cell = forwardRef((props, ref) => {
         console.log("player changed");
     }, [props]);
 
-    console.log(props.players[1] === props.squareNum);
+    console.log(props);
 
     return (
         <Box

@@ -2,43 +2,48 @@ import React, { useEffect, useRef, useState, useMemo, useReducer } from "react";
 import Cell from "./Cell";
 import { Button, Box } from "@mui/material";
 import NewPropertyAlert from "./NewPropertyAlert";
-import cellTypes from "../CellTypes";
+import CellTypes from "../CellTypes";
 
-const Board = () => {
-    const gridSize = 9;
-    let templateString = "repeat(" + gridSize + ", 0fr)";
+const Board = (props) => {
+    console.log(props)
 
-    const [players, setPlayers] = useState([
+    useEffect(() => {
+        console.log(props)
+    }, [props])
+    //const gridSize = 9;
+    let templateString = "repeat(" + props.gridSize + ", 0fr)";
+
+    /*const [players, setPlayers] = useState([
         { num: 1, location: 0, properties: [] },
         { num: 2, location: 0, properties: [] },
         { num: 3, location: 0, properties: [] },
         { num: 4, location: 0, properties: [] },
-    ]);
+    ]);*/
     const [propertyAlert, setPropertyAlert] = useState(false);
     let squareRefs = useRef([]);
-    let curPlayerTurn = useRef(1);
+    //let curPlayerTurn = useRef(1);
 
-    const makeBoard = () => {
+    /*const makeBoard = () => {
         let col = 1;
         let row = 2;
         let newSquares = [];
-        let curType = cellTypes.Cell;
+        let curType = CellTypes.Cell;
         const totalSquares = gridSize * 2 + (gridSize - 2) * 2;
 
         for (let i = 0; i < totalSquares; i++) {
             //0 8 16 24
             if (i === 0) {
-                curType = cellTypes.Start;
+                curType = CellTypes.Start;
             } else if (i === gridSize - 1) {
-                curType = cellTypes.GoToJail;
+                curType = CellTypes.GoToJail;
             } else if (i === gridSize * 2 - 2) {
-                curType = cellTypes.Go;
+                curType = CellTypes.Go;
             } else if (i === gridSize * 3 - 3) {
-                curType = cellTypes.Jail;
+                curType = CellTypes.Jail;
             } else if (i % 2 === 0) {
-                curType = cellTypes.Property;
+                curType = CellTypes.Property;
             } else if (i % 2 !== 0) {
-                curType = cellTypes.Chance;
+                curType = CellTypes.Chance;
             } else {
                 throw new Error("Invalid value for i in makeBoard");
             }
@@ -64,18 +69,18 @@ const Board = () => {
         return newSquares;
     };
 
-    const [squares, setSquares] = useState(makeBoard());
+    const [squares, setSquares] = useState(makeBoard());*/
 
     // Make an array of booleans where the index corresponds to each cell, then set the player field to this boolean and change the boolean whenever the player moves
     const displaySquares = () => {
-        console.log(squares);
-        return squares.map((curSquare, i) => {
+        //console.log(squares);
+        return props.squares.map((curSquare, i) => {
             return (
                 <Cell
                     key={i}
                     type={curSquare.type}
                     squareNum={i}
-                    players={players}
+                    players={props.players}
                     ref={(el) =>
                         (squareRefs.current = [...squareRefs.current, el])
                     }
@@ -86,7 +91,7 @@ const Board = () => {
         });
     };
 
-    const rollDie = () => {
+    /*const rollDie = () => {
         let movementDie = Math.floor(Math.random() * 6) + 1;
         let actionDie = Math.floor(Math.random() * 6) + 1;
 
@@ -136,29 +141,31 @@ const Board = () => {
 
         setPlayers([...newPlayers]);
 
-        while (players !== newPlayers);
+        while (players !== newPlayers) {
+            console.log("while loop doing something??")
+        };
 
         handleMove();
     };
 
     const handleMove = () => {
         switch (squares[players[curPlayerTurn.current - 1].location].type) {
-            case cellTypes.Start:
+            case CellTypes.Start:
                 break;
-            case cellTypes.GoToJail:
+            case CellTypes.GoToJail:
                 console.log("Going to jail");
                 break;
-            case cellTypes.Go:
+            case CellTypes.Go:
                 console.log("Passing go, get money!");
                 break;
-            case cellTypes.Jail:
+            case CellTypes.Jail:
                 console.log("At jail");
                 break;
-            case cellTypes.Property:
+            case CellTypes.Property:
                 openPropertyAlert();
                 console.log("At property");
                 break;
-            case cellTypes.Chance:
+            case CellTypes.Chance:
                 console.log("At chance");
                 break;
             default:
@@ -170,7 +177,7 @@ const Board = () => {
         } else {
             curPlayerTurn.current++;
         }
-    };
+    };*/
 
     const openPropertyAlert = () => {
         console.log("setting prop alert");
@@ -194,7 +201,7 @@ const Board = () => {
                 handleAccept={handleNewPropertyAccept}
                 handleDecline={handleNewPropertyDecline}
             />
-            <Button onClick={movePlayer}>Press me to move</Button>
+            {/*<Button onClick={movePlayer}>Press me to move</Button>*/}
             <Box
                 sx={{
                     display: "grid",
