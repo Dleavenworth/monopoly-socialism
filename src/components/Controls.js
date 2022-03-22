@@ -63,11 +63,11 @@ const Controls = (props) => {
 
     const handleMove = () => {
         console.log(props);
-        switch (
+        const curCell =
             props.squares[
                 props.players[props.curPlayerTurn.current - 1].location
-            ].type
-        ) {
+            ];
+        switch (curCell.type) {
             case CellTypes.Start:
                 break;
             case CellTypes.GoToJail:
@@ -80,11 +80,11 @@ const Controls = (props) => {
                 console.log("At jail");
                 break;
             case CellTypes.Property:
-                if (
-                    !props.squares[
+                if (!curCell.purchased) {
+                    /*!props.squares[
                         props.players[props.curPlayerTurn.current - 1].location
-                    ].purchased
-                ) {
+                    ].purchased*/
+                //) {
                     props.openPropertyAlert(props.curPlayerTurn.current);
                 }
                 console.log("At property");
