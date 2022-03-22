@@ -43,7 +43,6 @@ const Controls = (props) => {
         let newPlayerLocation = curPlayerLocation;
 
         if (curPlayerLocation + numToMove >= props.squares.length) {
-            console.log(props.squares.length - numToMove);
             newPlayerLocation =
                 curPlayerLocation + numToMove - props.squares.length;
         } else {
@@ -63,6 +62,7 @@ const Controls = (props) => {
     };
 
     const handleMove = () => {
+        console.log(props);
         switch (
             props.squares[
                 props.players[props.curPlayerTurn.current - 1].location
@@ -80,7 +80,13 @@ const Controls = (props) => {
                 console.log("At jail");
                 break;
             case CellTypes.Property:
-                props.openPropertyAlert();
+                if (
+                    !props.squares[
+                        props.players[props.curPlayerTurn.current - 1].location
+                    ].purchased
+                ) {
+                    props.openPropertyAlert(props.curPlayerTurn.current);
+                }
                 console.log("At property");
                 break;
             case CellTypes.Chance:

@@ -4,6 +4,7 @@ import Board from "./Board";
 import { Box } from "@mui/material";
 import CellTypes from "../CellTypes";
 import NewPropertyAlert from "./NewPropertyAlert";
+import PropertyTypes from "../PropertyTypes";
 
 const Game = () => {
     const gridSize = 9;
@@ -14,6 +15,7 @@ const Game = () => {
         { num: 4, location: 0, properties: [] },
     ]);
     let curPlayerTurn = useRef(1);
+    let playerGettingProperty = useRef(undefined);
     const [propertyAlert, setPropertyAlert] = useState(false);
 
     const makeBoard = () => {
@@ -22,6 +24,8 @@ const Game = () => {
         let newSquares = [];
         let curType = CellTypes.Cell;
         const totalSquares = gridSize * 2 + (gridSize - 2) * 2;
+        let propertyCounter = 0;
+        let curDescription = PropertyTypes.getPropList()[0];
 
         for (let i = 0; i < totalSquares; i++) {
             //0 8 16 24
@@ -35,6 +39,8 @@ const Game = () => {
                 curType = CellTypes.Jail;
             } else if (i % 2 === 0) {
                 curType = CellTypes.Property;
+                curDescription = PropertyTypes.getPropList()[propertyCounter];
+                propertyCounter++;
             } else if (i % 2 !== 0) {
                 curType = CellTypes.Chance;
             } else {
@@ -55,6 +61,8 @@ const Game = () => {
                 col: col,
                 row: row,
                 type: curType,
+                purchased: false,
+                description: curDescription,
             };
 
             newSquares.push(square);
@@ -68,14 +76,26 @@ const Game = () => {
         setPlayers(newPlayers);
     };
 
-    const openPropertyAlert = () => {
+    const openPropertyAlert = (player) => {
         console.log("setting prop alert");
+        playerGettingProperty.current = player;
         setPropertyAlert(true);
     };
 
     const handleNewPropertyAccept = () => {
         console.log("Accept new property");
+        let newPlayers = players;
+        let newSquares = squares;
+        newPlayers[playerGettingProperty.current].properties.push(
+            squares[newPlayers[playerGettingProperty.current].location]
+                .description
+        );
+        newSquares[
+            players[playerGettingProperty.current].location
+        ].purchased = true;
         setPropertyAlert(false);
+        setPlayers(newPlayers);
+        setSquares(newSquares);
     };
 
     const handleNewPropertyDecline = () => {
