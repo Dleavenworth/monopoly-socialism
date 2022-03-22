@@ -1,9 +1,8 @@
-import React from 'react';
-import { Button } from "@mui/material"
-import CellTypes from '../CellTypes';
+import React from "react";
+import { Button } from "@mui/material";
+import CellTypes from "../CellTypes";
 
 const Controls = (props) => {
-
     const rollDie = () => {
         let movementDie = Math.floor(Math.random() * 6) + 1;
         let actionDie = Math.floor(Math.random() * 6) + 1;
@@ -45,24 +44,30 @@ const Controls = (props) => {
 
         if (curPlayerLocation + numToMove >= props.squares.length) {
             console.log(props.squares.length - numToMove);
-            newPlayerLocation = curPlayerLocation + numToMove - props.squares.length;
+            newPlayerLocation =
+                curPlayerLocation + numToMove - props.squares.length;
         } else {
             newPlayerLocation += numToMove;
         }
 
-        newPlayers[props.curPlayerTurn.current - 1].location = newPlayerLocation;
+        newPlayers[props.curPlayerTurn.current - 1].location =
+            newPlayerLocation;
 
-        props.setPlayers([...newPlayers]);
+        props.handleUpdatePlayers([...newPlayers]);
 
         while (props.players !== newPlayers) {
-            console.log("while loop doing something??")
-        };
+            console.log("while loop doing something??");
+        }
 
         handleMove();
     };
 
     const handleMove = () => {
-        switch (props.squares[props.players[props.curPlayerTurn.current - 1].location].type) {
+        switch (
+            props.squares[
+                props.players[props.curPlayerTurn.current - 1].location
+            ].type
+        ) {
             case CellTypes.Start:
                 break;
             case CellTypes.GoToJail:
@@ -75,7 +80,7 @@ const Controls = (props) => {
                 console.log("At jail");
                 break;
             case CellTypes.Property:
-                //props.openPropertyAlert();
+                props.openPropertyAlert();
                 console.log("At property");
                 break;
             case CellTypes.Chance:
@@ -84,7 +89,7 @@ const Controls = (props) => {
             default:
                 throw new Error("Invalid cell type");
         }
-        
+
         if (props.curPlayerTurn.current >= 4) {
             props.curPlayerTurn.current = 1;
         } else {
@@ -92,9 +97,7 @@ const Controls = (props) => {
         }
     };
 
-    return (
-            <Button onClick={movePlayer}>Press me to move</Button>
-    )
-}
+    return <Button onClick={movePlayer}>Press me to move</Button>;
+};
 
-export default Controls
+export default Controls;

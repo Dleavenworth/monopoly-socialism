@@ -1,12 +1,11 @@
-import React, {useEffect, useState, useRef} from "react";
-import Controls from "./Controls"
-import Board from "./Board"
-import { Box } from "@mui/material"
-import CellTypes from "../CellTypes"
+import React, { useEffect, useState, useRef } from "react";
+import Controls from "./Controls";
+import Board from "./Board";
+import { Box } from "@mui/material";
+import CellTypes from "../CellTypes";
+import NewPropertyAlert from "./NewPropertyAlert";
 
 const Game = () => {
-
-    
     const gridSize = 9;
     const [players, setPlayers] = useState([
         { num: 1, location: 0, properties: [] },
@@ -15,6 +14,7 @@ const Game = () => {
         { num: 4, location: 0, properties: [] },
     ]);
     let curPlayerTurn = useRef(1);
+    const [propertyAlert, setPropertyAlert] = useState(false);
 
     const makeBoard = () => {
         let col = 1;
@@ -64,13 +64,42 @@ const Game = () => {
 
     const [squares, setSquares] = useState(makeBoard());
 
+    const updatePlayers = (newPlayers) => {
+        setPlayers(newPlayers);
+    };
+
+    const openPropertyAlert = () => {
+        console.log("setting prop alert");
+        setPropertyAlert(true);
+    };
+
+    const handleNewPropertyAccept = () => {
+        console.log("Accept new property");
+        setPropertyAlert(false);
+    };
+
+    const handleNewPropertyDecline = () => {
+        console.log("Reject new property");
+        setPropertyAlert(false);
+    };
 
     return (
         <Box>
-            <Controls players={players} curPlayerTurn={curPlayerTurn} squares={squares}/>
-            <Board players={players} gridSize={gridSize} squares={squares}/>
+            <NewPropertyAlert
+                open={propertyAlert}
+                handleAccept={handleNewPropertyAccept}
+                handleDecline={handleNewPropertyDecline}
+            />
+            <Controls
+                players={players}
+                curPlayerTurn={curPlayerTurn}
+                squares={squares}
+                handleUpdatePlayers={updatePlayers}
+                openPropertyAlert={openPropertyAlert}
+            />
+            <Board players={players} gridSize={gridSize} squares={squares} />
         </Box>
-    )
-}
+    );
+};
 
-export default Game
+export default Game;
