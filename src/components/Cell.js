@@ -22,10 +22,10 @@ const Cell = forwardRef((props, ref) => {
         >
             <List>
                 {props.players.map((curPlayer, i) => {
-                    if (props.players[i].location === props.squareNum) {
+                    if (curPlayer.location === props.squareNum) {
                         return (
                             <ListItem key={i}>
-                                Player {props.players[i].num} is here{" "}
+                                Player {curPlayer.num} is here{" "}
                             </ListItem>
                         );
                     } else {

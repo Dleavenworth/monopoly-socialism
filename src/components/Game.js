@@ -90,14 +90,24 @@ const Game = () => {
                 handleAccept={handleNewPropertyAccept}
                 handleDecline={handleNewPropertyDecline}
             />
-            <Controls
-                players={players}
-                curPlayerTurn={curPlayerTurn}
-                squares={squares}
-                handleUpdatePlayers={updatePlayers}
-                openPropertyAlert={openPropertyAlert}
-            />
-            <Board players={players} gridSize={gridSize} squares={squares} />
+            <Box sx={{ display: "flex" }}>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Board
+                        players={players}
+                        gridSize={gridSize}
+                        squares={squares}
+                    />
+                </Box>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Controls
+                        players={players}
+                        curPlayerTurn={curPlayerTurn}
+                        squares={squares}
+                        handleUpdatePlayers={updatePlayers}
+                        openPropertyAlert={openPropertyAlert}
+                    />
+                </Box>
+            </Box>
         </Box>
     );
 };
