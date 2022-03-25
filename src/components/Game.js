@@ -4,7 +4,7 @@ import Board from "./Board";
 import { Box } from "@mui/material";
 import CellTypes from "../CellTypes";
 import NewPropertyAlert from "./NewPropertyAlert";
-import PropertyTypes from "../PropertyTypes";
+import ProjectTypes from "../ProjectTypes";
 
 const Game = () => {
     const gridSize = 9;
@@ -25,7 +25,7 @@ const Game = () => {
         let curType = CellTypes.Cell;
         const totalSquares = gridSize * 2 + (gridSize - 2) * 2;
         let propertyCounter = 0;
-        let curDescription = PropertyTypes.getPropList()[0];
+        let curDescription = ProjectTypes.getPropList()[0];
 
         for (let i = 0; i < totalSquares; i++) {
             //0 8 16 24
@@ -39,7 +39,7 @@ const Game = () => {
                 curType = CellTypes.Jail;
             } else if (i % 2 === 0) {
                 curType = CellTypes.Property;
-                curDescription = PropertyTypes.getPropList()[propertyCounter];
+                curDescription = ProjectTypes.getPropList()[propertyCounter];
                 propertyCounter++;
             } else if (i % 2 !== 0) {
                 // Add description for chance cards here

@@ -81,10 +81,6 @@ const Controls = (props) => {
                 break;
             case CellTypes.Property:
                 if (!curCell.purchased) {
-                    /*!props.squares[
-                        props.players[props.curPlayerTurn.current - 1].location
-                    ].purchased*/
-                //) {
                     props.openPropertyAlert(props.curPlayerTurn.current);
                 }
                 console.log("At property");
@@ -103,7 +99,9 @@ const Controls = (props) => {
         }
     };
 
-    return <Button onClick={movePlayer}>Press me to move</Button>;
+    return (
+    <Button onClick={movePlayer}>Press me to move</Button>
+    );
 };
 
 export default Controls;
