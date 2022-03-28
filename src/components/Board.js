@@ -21,6 +21,7 @@ const Board = (props) => {
                     }
                     row={curSquare.row}
                     column={curSquare.col}
+                    owner={curSquare.owner}
                 />
             );
         });

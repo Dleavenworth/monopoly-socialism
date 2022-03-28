@@ -2,6 +2,9 @@ import React, { useEffect, forwardRef } from "react";
 import { Box, List, ListItem } from "@mui/material";
 
 const Cell = forwardRef((props, ref) => {
+    if(props.owner !== undefined) {
+        console.log("The owner prop was set in cell")
+    }
     return (
         <Box
             ref={ref}
@@ -14,11 +17,11 @@ const Cell = forwardRef((props, ref) => {
             gridRow={props.row}
             gridColumn={props.column}
         >
-            <Box sx={{display: "flex", width: "50px", height: "50px"}}>
+            <Box sx={{display: "flex", width: "40px", height: "40px"}}>
                     {props.players.map((curPlayer, i) => {
                     if (curPlayer.location === props.squareNum) {
                         return (
-                            <Box sx={{backgroundColor: curPlayer.color, width: "10px", height: "10px"}}/>
+                            <Box key={i} sx={{backgroundColor: curPlayer.color, width: "10px", height: "10px"}}/>
                         );
                     } else {
                         return null;
@@ -26,21 +29,8 @@ const Cell = forwardRef((props, ref) => {
                 })}
             </Box>
             <Box sx={{bottom: 0}}>
-                <p>Owned by: p</p>
+                <p>Owner: {props.owner}</p>
             </Box>
-            {/*<List>
-                {props.players.map((curPlayer, i) => {
-                    if (curPlayer.location === props.squareNum) {
-                        return (
-                            <ListItem key={i}>
-                                Player {curPlayer.num} is here{" "}
-                            </ListItem>
-                        );
-                    } else {
-                        return null;
-                    }
-                })}
-            </List>*/}
         </Box>
     );
 });

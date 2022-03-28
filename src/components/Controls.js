@@ -80,7 +80,7 @@ const Controls = (props) => {
                 console.log("At jail");
                 break;
             case CellTypes.Property:
-                if (!curCell.purchased) {
+                if (curCell.owner === undefined) {
                     props.openPropertyAlert(props.curPlayerTurn.current);
                 }
                 console.log("At property");
