@@ -8,7 +8,7 @@ const Board = (props) => {
 
     // Make an array of booleans where the index corresponds to each cell, then set the player field to this boolean and change the boolean whenever the player moves
     const displaySquares = () => {
-        console.log(props.squares);
+        console.log(props);
         return props.squares.map((curSquare, i) => {
             return (
                 <Cell
@@ -22,6 +22,7 @@ const Board = (props) => {
                     row={curSquare.row}
                     column={curSquare.col}
                     owner={curSquare.owner}
+                    name={curSquare.description.projectName}
                 />
             );
         });

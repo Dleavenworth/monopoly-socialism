@@ -24,8 +24,8 @@ export default class ProjectTypes {
     static DairyFreeCoffeeShop = new ProjectTypes("DairyFreeCoffeeShop");
     static TogetherWeRiseBakery = new ProjectTypes("TogetherWeRiseBakery");
 
-    constructor(propertyName) {
-        this.propertyName = propertyName;
+    constructor(projectName) {
+        this.projectName = projectName;
         ProjectTypes.propList = ProjectTypes.propList || [];
         ProjectTypes.propList.push(this);
     }
