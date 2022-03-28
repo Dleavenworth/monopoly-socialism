@@ -9,10 +9,10 @@ import ProjectTypes from "../ProjectTypes";
 const Game = () => {
     const gridSize = 9;
     const [players, setPlayers] = useState([
-        { num: 1, location: 0, properties: [] },
-        { num: 2, location: 0, properties: [] },
-        { num: 3, location: 0, properties: [] },
-        { num: 4, location: 0, properties: [] },
+        { num: 1, location: 0, properties: [], color: "red"},
+        { num: 2, location: 0, properties: [], color: "blue"},
+        { num: 3, location: 0, properties: [], color: "green"},
+        { num: 4, location: 0, properties: [], color: "orange"},
     ]);
     let curPlayerTurn = useRef(1);
     let playerGettingProperty = useRef(undefined);

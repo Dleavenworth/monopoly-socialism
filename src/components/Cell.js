@@ -9,12 +9,28 @@ const Cell = forwardRef((props, ref) => {
                 border: "1px solid black",
                 width: "100px",
                 height: "100px",
+                display: "flex",
+                flexDirection: "column"
                 //backgroundColor: props.corner ? "black" : "white",
             }}
             gridRow={props.row}
             gridColumn={props.column}
         >
-            <List>
+            <Box sx={{display: "flex", flexDirection: "row"}}>
+                    {props.players.map((curPlayer, i) => {
+                    if (curPlayer.location === props.squareNum) {
+                        return (
+                            <Box sx={{backgroundColor: curPlayer.color, width: "10px", height: "10px"}}/>
+                        );
+                    } else {
+                        return null;
+                    }
+                })}
+            </Box>
+            <Box sx={{bottom: 0, alignSelf: "flex-end"}}>
+                <p>Owned by: p</p>
+            </Box>
+            {/*<List>
                 {props.players.map((curPlayer, i) => {
                     if (curPlayer.location === props.squareNum) {
                         return (
@@ -26,7 +42,7 @@ const Cell = forwardRef((props, ref) => {
                         return null;
                     }
                 })}
-            </List>
+            </List>*/}
         </Box>
     );
 });
