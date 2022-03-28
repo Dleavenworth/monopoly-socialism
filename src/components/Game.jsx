@@ -5,6 +5,7 @@ import { Box } from "@mui/material"
 import CellTypes from "../CellTypes"
 import NewPropertyAlert from "./NewPropertyAlert"
 import ProjectTypes from "../ProjectTypes"
+import TradeDialog from "./TradeDialog"
 
 const Game = () => {
 	const gridSize = 9
@@ -26,22 +27,20 @@ const Game = () => {
 		const totalSquares = gridSize * 2 + (gridSize - 2) * 2
 		let propertyCounter = 0
 		let curDescription = ProjectTypes.getPropList()[0]
+		let cornerCounter = 0
 
 		for (let i = 0; i < totalSquares; i++) {
-			//0 8 16 24
-			if (i === 0) {
-				curType = CellTypes.Start
-			} else if (i === gridSize - 1) {
-				curType = CellTypes.GoToJail
-			} else if (i === gridSize * 2 - 2) {
-				curType = CellTypes.Go
-			} else if (i === gridSize * 3 - 3) {
-				curType = CellTypes.Jail
-			} else if (i % 2 === 0) {
+			//0 8 16 24 for corners
+			//4 12 20 28 for shuttles
+			if(i === gridSize * cornerCounter - cornerCounter) {
+				curType = CellTypes.getPropList()[cornerCounter]
+			} else if(i % (gridSize-1) === (gridSize-1)/2) {
+				curType = CellTypes.Shuttle
+			} else if (i % 2 !== 0) {
 				curType = CellTypes.Property
 				curDescription = ProjectTypes.getPropList()[propertyCounter]
 				propertyCounter++
-			} else if (i % 2 !== 0) {
+			} else if (i % 2 === 0) {
 				// Add description for chance cards here
 				curType = CellTypes.Chance
 			} else {
@@ -106,6 +105,7 @@ const Game = () => {
 
 	return (
 		<Box>
+			{/*<TradeDialog open={true}/>*/}
 			<NewPropertyAlert
 				open={propertyAlert}
 				handleAccept={handleNewPropertyAccept}

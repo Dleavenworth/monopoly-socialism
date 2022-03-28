@@ -6,8 +6,15 @@ export default class CellTypes {
     static Start = new CellTypes("Start");
     static Property = new CellTypes("Property");
     static Chance = new CellTypes("Chance");
+    static Shuttle = new CellTypes("Shuttle");
 
     constructor(type) {
         this.type = type;
+        CellTypes.propList = CellTypes.propList || [];
+        CellTypes.propList.push(this);
+    }
+
+    static getPropList() {
+        return CellTypes.propList 
     }
 }
