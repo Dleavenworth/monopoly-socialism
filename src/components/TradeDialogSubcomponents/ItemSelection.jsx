@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Box,
 	FormControl,
@@ -12,6 +12,10 @@ const ItemSelection = (props) => {
 	const [tradeMoney, setTradeMoney] = useState(false);
 	const [tradeProjects, setTradeProjects] = useState(false);
 	const [tradeChance, setTradeChance] = useState(false);
+
+	useEffect(() => {
+		props.changeSelectedItems([tradeProjects, tradeMoney, tradeChance])
+	}, [tradeMoney, tradeProjects, tradeChance])
 
 	const handleSelectionChange = (e, selection) => {
 		switch (selection) {

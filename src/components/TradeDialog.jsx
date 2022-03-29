@@ -10,8 +10,18 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
+	Card,
+	CardHeader,
+	Divider,
+	List,
+	Checkbox,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
+	Grid,
 } from "@mui/material";
 import ItemSelection from "./TradeDialogSubcomponents/ItemSelection";
+import PropertySelection from "./TradeDialogSubcomponents/PropertySelection";
 
 //Think about how you would string together multiple dialogs or display everything in a single dialog
 //Make it a full screen dialog (this one sounds the most appealing actually)
@@ -25,6 +35,9 @@ import ItemSelection from "./TradeDialogSubcomponents/ItemSelection";
 const TradeDialog = (props) => {
 	const [open, setOpen] = useState(props.open);
 	const [selectedPlayer, setSelectedPlayer] = useState("");
+	const [selectedItems, setSelectedItems] = useState([]);
+
+	console.log(selectedItems);
 
 	const handleClose = () => {
 		setOpen(false);
@@ -33,6 +46,13 @@ const TradeDialog = (props) => {
 	const handleSelectedPlayer = (e) => {
 		setSelectedPlayer(e.target.value);
 	};
+
+	const changeSelectedItems = (newItems) => {
+		setSelectedItems(newItems);
+	};
+
+	const [left, setLeft] = useState([]);
+	const [right, setRight] = useState([]);
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -57,7 +77,15 @@ const TradeDialog = (props) => {
 							</Select>
 						</FormControl>
 					</Box>
-					{Number.isFinite(selectedPlayer) ? <ItemSelection /> : null}
+					{Number.isFinite(selectedPlayer) ? (
+						<ItemSelection
+							selectedItems={selectedItems}
+							changeSelectedItems={changeSelectedItems}
+						/>
+					) : null}
+					{selectedItems.find((element) => element) ? (
+						<PropertySelection/>
+					) : null}
 				</DialogContent>
 			</Dialog>
 		</Box>
