@@ -1,27 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import {
 	Box,
 	Button,
 	Dialog,
 	DialogContent,
-	DialogContentText,
-	DialogTitle,
 	FormControl,
 	InputLabel,
 	MenuItem,
 	Select,
-	Card,
-	CardHeader,
-	Divider,
-	List,
-	Checkbox,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
-	Grid,
+	AppBar,
+	Toolbar,
+	IconButton,
+	Typography,
 } from "@mui/material";
 import ItemSelection from "./TradeDialogSubcomponents/ItemSelection";
 import PropertySelection from "./TradeDialogSubcomponents/PropertySelection";
+import { CollectionsOutlined } from "@mui/icons-material"
+import { uuid } from "uuidv4"
 
 //Think about how you would string together multiple dialogs or display everything in a single dialog
 //Make it a full screen dialog (this one sounds the most appealing actually)
@@ -33,34 +28,71 @@ import PropertySelection from "./TradeDialogSubcomponents/PropertySelection";
 // Trading property is using the transfer list too
 // Trading chance cards is using the transfer list too
 const TradeDialog = (props) => {
-	const [open, setOpen] = useState(props.open);
+	//const [open, setOpen] = useState(props.open);
+	let open = useRef(props.open)
 	const [selectedPlayer, setSelectedPlayer] = useState("");
 	const [selectedItems, setSelectedItems] = useState([]);
+	const [selectedPlayerProjects, setSelectedPlayerProjects] = useState([])
+	console.log(props.playerStarting.current)
+	console.log(props.players[props.playerStarting.current-1])
+	const [curPlayerProjects, setCurPlayerProjects] = useState(props.players[props.playerStarting.current-1].properties)
+	const [propertiesSold, setPropertiesSold] = useState();
+	const [propertiesBought, setPropertiesBought] = useState()
 
-	console.log(selectedItems);
+
+	useEffect(() => {
+		console.log("sold")
+		console.log(propertiesSold)
+		console.log("bought")
+		console.log(propertiesBought)
+	}, [propertiesSold, propertiesBought])
 
 	const handleClose = () => {
-		setOpen(false);
+		console.log("closing")
+		open.current = false
+		props.closeDialog()
 	};
 
 	const handleSelectedPlayer = (e) => {
-		setSelectedPlayer(e.target.value);
+		let selectedPlayerNum = e.target.value
+		setSelectedPlayer(selectedPlayerNum);
+		setSelectedPlayerProjects(props.players[selectedPlayerNum-1].properties)
+		console.log(props.players[selectedPlayerNum-1])
+		console.log(selectedPlayerNum)
+		console.log(selectedPlayerProjects)
+		console.log(curPlayerProjects)
 	};
 
 	const changeSelectedItems = (newItems) => {
 		setSelectedItems(newItems);
 	};
 
-	const [left, setLeft] = useState([]);
-	const [right, setRight] = useState([]);
+	const handleBoughtProperties = (newProperties) => {
+		setPropertiesBought(newProperties)
+	}
+
+	const handleSoldProperties = (newProperties) => {
+		setPropertiesSold(newProperties)
+	}
 
 	return (
-		<Box sx={{ display: "flex", flexDirection: "column" }}>
-			<Button variant="outlined">Trade offer dialog</Button>
-			<Dialog open={open} onClose={handleClose} fullScreen>
-				<DialogTitle>Trade</DialogTitle>
-				<DialogContent>
-					<DialogContentText>Make your trade offer here</DialogContentText>
+		<Dialog open={props.open} onClose={handleClose} fullScreen>
+				<AppBar position="relative">
+					<Toolbar>
+						<IconButton
+							size="large"
+							edge="start"
+							color="inherit"
+							sx={{ mr: 2 }}
+						></IconButton>
+						<Typography variant="h6" component="div" sx={{ml: 2, flex: 1}}>
+							Trade
+						</Typography>
+						<Button color="inherit">Submit</Button>
+					</Toolbar>
+				</AppBar>
+			<DialogContent>
+				<Box sx={{ display: "flex", flexDirection: "column" }}>
 					<Box noValidate component="form">
 						<FormControl>
 							<InputLabel>Player to trade with</InputLabel>
@@ -70,10 +102,9 @@ const TradeDialog = (props) => {
 								onChange={handleSelectedPlayer}
 								sx={{ minWidth: 200 }}
 							>
-								<MenuItem value={1}>Player 1</MenuItem>
-								<MenuItem value={2}>Player 2</MenuItem>
-								<MenuItem value={3}>Player 3</MenuItem>
-								<MenuItem value={4}>Player 4</MenuItem>
+								{props.players.map((curPlayer, i) => {
+									return curPlayer.num === props.playerStarting.current ? null : <MenuItem key={i} value={curPlayer.num}>Player {curPlayer.num}</MenuItem>
+								})}
 							</Select>
 						</FormControl>
 					</Box>
@@ -84,11 +115,11 @@ const TradeDialog = (props) => {
 						/>
 					) : null}
 					{selectedItems.find((element) => element) ? (
-						<PropertySelection/>
+						<PropertySelection handleBoughtProperties={handleBoughtProperties} handleSoldProperties={handleSoldProperties} curPlayerProjects={curPlayerProjects} selectedPlayerProjects={selectedPlayerProjects}/>
 					) : null}
-				</DialogContent>
-			</Dialog>
-		</Box>
+				</Box>
+			</DialogContent>
+		</Dialog>
 	);
 };
 

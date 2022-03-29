@@ -18,6 +18,7 @@ const Game = () => {
 	let curPlayerTurn = useRef(1);
 	let playerGettingProperty = useRef(undefined);
 	const [propertyAlert, setPropertyAlert] = useState(false);
+	const [isTrading, setIsTrading] = useState(false)
 
 	const makeBoard = () => {
 		let col = 1;
@@ -98,14 +99,24 @@ const Game = () => {
 		setPlayers(newPlayers);
 		setSquares(newSquares);
 	};
+
 	const handleNewPropertyDecline = () => {
 		console.log("Reject new property");
 		setPropertyAlert(false);
 	};
 
+	const startTrade = () => {
+		console.log("WHAT")
+		setIsTrading(true)
+	}
+
+	const closeDialog = () => {
+		setIsTrading(false)
+	}
+
 	return (
 		<Box>
-			<TradeDialog open={true} />
+			<TradeDialog closeDialog={closeDialog} playerStarting={curPlayerTurn} players={players} squares={squares} open={isTrading} />
 			<NewPropertyAlert
 				open={propertyAlert}
 				handleAccept={handleNewPropertyAccept}
@@ -122,6 +133,7 @@ const Game = () => {
 						squares={squares}
 						handleUpdatePlayers={updatePlayers}
 						openPropertyAlert={openPropertyAlert}
+						startTrade={startTrade}
 					/>
 				</Box>
 			</Box>

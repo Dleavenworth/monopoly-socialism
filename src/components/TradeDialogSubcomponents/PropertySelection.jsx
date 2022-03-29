@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import Card from "@mui/material/Card";
@@ -22,13 +22,19 @@ function union(a, b) {
 	return [...a, ...not(b, a)];
 }
 
-export default function TransferList() {
+export default function PropertySelection(props) {
 	const [checked, setChecked] = React.useState([]);
-	const [left, setLeft] = React.useState([0, 1, 2, 3]);
-	const [right, setRight] = React.useState([4, 5, 6, 7]);
+	const [left, setLeft] = React.useState(props.curPlayerProjects);
+	const [right, setRight] = React.useState(props.selectedPlayerProjects);
+	console.log(props);
 
-	const leftChecked = intersection(checked, left);
-	const rightChecked = intersection(checked, right);
+	useEffect(() => {
+		const leftChecked = intersection(checked, left);
+		const rightChecked = intersection(checked, right);
+		console.log(leftChecked, rightChecked);
+		props.handleBoughtProperties(rightChecked);
+		props.handleSoldProperties(leftChecked);
+	}, [checked]);
 
 	const handleToggle = (value) => () => {
 		const currentIndex = checked.indexOf(value);
@@ -79,8 +85,8 @@ export default function TransferList() {
 			<Divider />
 			<List
 				sx={{
-					width: 200,
-					height: 230,
+					width: "20vw",
+					height: "20vh",
 					bgcolor: "background.paper",
 					overflow: "auto",
 				}}
@@ -89,6 +95,7 @@ export default function TransferList() {
 				role="list"
 			>
 				{items.map((value) => {
+					console.log(value.projectName);
 					const labelId = `transfer-list-all-item-${value}-label`;
 
 					return (
@@ -108,7 +115,7 @@ export default function TransferList() {
 									}}
 								/>
 							</ListItemIcon>
-							<ListItemText id={labelId} primary={`List item ${value + 1}`} />
+							<ListItemText id={labelId} primary={value.projectName} />
 						</ListItem>
 					);
 				})}
@@ -119,7 +126,7 @@ export default function TransferList() {
 
 	return (
 		<Grid container spacing={2} justifyContent="center" alignItems="center">
-			<Grid item>{customList("My projects", left)}</Grid>
+			<Grid item>{customList("My projects", props.curPlayerProjects)}</Grid>
 			<Grid item>
 				<Grid container direction="column" alignItems="center">
 					<Button
@@ -142,7 +149,9 @@ export default function TransferList() {
 					</Button>
 				</Grid>
 			</Grid>
-			<Grid item>{customList("Their projects", right)}</Grid>
+			<Grid item>
+				{customList("Their projects", props.selectedPlayerProjects)}
+			</Grid>
 		</Grid>
 	);
 }

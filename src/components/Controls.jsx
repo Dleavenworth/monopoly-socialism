@@ -98,7 +98,10 @@ const Controls = (props) => {
 		}
 	};
 
-	const startTrade = () => {};
+	const startTrade = () => {
+		console.log("in the on click")
+		props.startTrade()
+	};
 
 	return (
 		<Box>
