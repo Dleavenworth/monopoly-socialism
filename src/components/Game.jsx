@@ -1,60 +1,60 @@
-import React, { useEffect, useState, useRef } from "react"
-import Controls from "./Controls"
-import Board from "./Board"
-import { Box } from "@mui/material"
-import CellTypes from "../CellTypes"
-import NewPropertyAlert from "./NewPropertyAlert"
-import ProjectTypes from "../ProjectTypes"
-import TradeDialog from "./TradeDialog"
+import React, { useEffect, useState, useRef } from "react";
+import Controls from "./Controls";
+import Board from "./Board";
+import { Box } from "@mui/material";
+import CellTypes from "../CellTypes";
+import NewPropertyAlert from "./NewPropertyAlert";
+import ProjectTypes from "../ProjectTypes";
+import TradeDialog from "./TradeDialog";
 
 const Game = () => {
-	const gridSize = 9
+	const gridSize = 9;
 	const [players, setPlayers] = useState([
 		{ num: 1, location: 0, properties: [], color: "red" },
 		{ num: 2, location: 0, properties: [], color: "blue" },
 		{ num: 3, location: 0, properties: [], color: "green" },
 		{ num: 4, location: 0, properties: [], color: "orange" },
-	])
-	let curPlayerTurn = useRef(1)
-	let playerGettingProperty = useRef(undefined)
-	const [propertyAlert, setPropertyAlert] = useState(false)
+	]);
+	let curPlayerTurn = useRef(1);
+	let playerGettingProperty = useRef(undefined);
+	const [propertyAlert, setPropertyAlert] = useState(false);
 
 	const makeBoard = () => {
-		let col = 1
-		let row = 2
-		let newSquares = []
-		let curType = CellTypes.Cell
-		const totalSquares = gridSize * 2 + (gridSize - 2) * 2
-		let propertyCounter = 0
-		let curDescription = ProjectTypes.getPropList()[0]
-		let cornerCounter = 0
+		let col = 1;
+		let row = 2;
+		let newSquares = [];
+		let curType = CellTypes.Cell;
+		const totalSquares = gridSize * 2 + (gridSize - 2) * 2;
+		let propertyCounter = 0;
+		let curDescription = ProjectTypes.getPropList()[0];
+		let cornerCounter = 0;
 
 		for (let i = 0; i < totalSquares; i++) {
 			//0 8 16 24 for corners
 			//4 12 20 28 for shuttles
-			if(i === gridSize * cornerCounter - cornerCounter) {
-				curType = CellTypes.getPropList()[cornerCounter]
-			} else if(i % (gridSize-1) === (gridSize-1)/2) {
-				curType = CellTypes.Shuttle
+			if (i === gridSize * cornerCounter - cornerCounter) {
+				curType = CellTypes.getPropList()[cornerCounter];
+			} else if (i % (gridSize - 1) === (gridSize - 1) / 2) {
+				curType = CellTypes.Shuttle;
 			} else if (i % 2 !== 0) {
-				curType = CellTypes.Property
-				curDescription = ProjectTypes.getPropList()[propertyCounter]
-				propertyCounter++
+				curType = CellTypes.Property;
+				curDescription = ProjectTypes.getPropList()[propertyCounter];
+				propertyCounter++;
 			} else if (i % 2 === 0) {
 				// Add description for chance cards here
-				curType = CellTypes.Chance
+				curType = CellTypes.Chance;
 			} else {
-				throw new Error("Invalid value for i in makeBoard")
+				throw new Error("Invalid value for i in makeBoard");
 			}
 
 			if (i < gridSize) {
-				col++
+				col++;
 			} else if (i < 2 * gridSize - 1) {
-				row++
+				row++;
 			} else if (i < 3 * gridSize - 2) {
-				col--
+				col--;
 			} else {
-				row--
+				row--;
 			}
 
 			const square = {
@@ -63,49 +63,49 @@ const Game = () => {
 				type: curType,
 				owner: undefined,
 				description: curDescription,
-			}
+			};
 
-			newSquares.push(square)
+			newSquares.push(square);
 		}
-		return newSquares
-	}
+		return newSquares;
+	};
 
-	const [squares, setSquares] = useState(makeBoard())
+	const [squares, setSquares] = useState(makeBoard());
 
 	const updatePlayers = (newPlayers) => {
-		setPlayers(newPlayers)
-	}
+		setPlayers(newPlayers);
+	};
 
 	const openPropertyAlert = (player) => {
-		console.log("setting prop alert")
-		playerGettingProperty.current = player
-		setPropertyAlert(true)
-	}
+		console.log("setting prop alert");
+		playerGettingProperty.current = player;
+		setPropertyAlert(true);
+	};
 
 	const handleNewPropertyAccept = () => {
-		console.log("Accept new property")
-		let newPlayers = players
-		let newSquares = squares
+		console.log("Accept new property");
+		let newPlayers = players;
+		let newSquares = squares;
 		newPlayers[playerGettingProperty.current - 1].properties.push(
 			squares[newPlayers[playerGettingProperty.current - 1].location]
 				.description
-		)
-		console.log(players[playerGettingProperty.current - 1].location)
-		console.log(playerGettingProperty.current)
+		);
+		console.log(players[playerGettingProperty.current - 1].location);
+		console.log(playerGettingProperty.current);
 		newSquares[players[playerGettingProperty.current - 1].location].owner =
-			newPlayers[playerGettingProperty.current - 1].color
-		setPropertyAlert(false)
-		setPlayers(newPlayers)
-		setSquares(newSquares)
-	}
+			newPlayers[playerGettingProperty.current - 1].color;
+		setPropertyAlert(false);
+		setPlayers(newPlayers);
+		setSquares(newSquares);
+	};
 	const handleNewPropertyDecline = () => {
-		console.log("Reject new property")
-		setPropertyAlert(false)
-	}
+		console.log("Reject new property");
+		setPropertyAlert(false);
+	};
 
 	return (
 		<Box>
-			{/*<TradeDialog open={true}/>*/}
+			<TradeDialog open={true} />
 			<NewPropertyAlert
 				open={propertyAlert}
 				handleAccept={handleNewPropertyAccept}
@@ -126,7 +126,7 @@ const Game = () => {
 				</Box>
 			</Box>
 		</Box>
-	)
-}
+	);
+};
 
-export default Game
+export default Game;

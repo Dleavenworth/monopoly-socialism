@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect, forwardRef } from "react"
-import { Box, List, ListItem } from "@mui/material"
-import CellTypes from "../CellTypes"
+import React, { Fragment, forwardRef } from "react";
+import { Box, Typography } from "@mui/material";
+import CellTypes from "../CellTypes";
 
 const Cell = forwardRef((props, ref) => {
-	console.log(props.description)
+	console.log(props.description);
 	return (
 		<Box
 			ref={ref}
@@ -37,21 +37,21 @@ const Cell = forwardRef((props, ref) => {
 									height: "1vh",
 								}}
 							/>
-						)
+						);
 					} else {
-						return null
+						return null;
 					}
 				})}
 			</Box>
 			<Box sx={{ bottom: 0 }}>
 				{props.type === CellTypes.Property ? (
 					<>
-						<p>Owner: {props.owner}</p>
-						<p>Name: {props.name}</p>
+						<Typography>Owner: {props.owner}</Typography>
+						<Typography>Name: {props.name}</Typography>
 					</>
 				) : null}
 			</Box>
 		</Box>
-	)
-})
-export default Cell
+	);
+});
+export default Cell;

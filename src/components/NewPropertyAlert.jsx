@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
 import {
 	Button,
 	Dialog,
@@ -6,23 +6,23 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
-} from "@mui/material"
+} from "@mui/material";
 
 const NewPropertyAlert = (props) => {
-	const [open, setOpen] = useState(props.open)
+	const [open, setOpen] = useState(props.open);
 
 	useEffect(() => {
-		setOpen(props.open)
-	}, [props.open])
+		setOpen(props.open);
+	}, [props.open]);
 
 	const handleClose = (result) => {
-		setOpen(false)
+		setOpen(false);
 		if (result) {
-			props.handleAccept()
+			props.handleAccept();
 		} else {
-			props.handleDecline()
+			props.handleDecline();
 		}
-	}
+	};
 
 	return (
 		<Dialog
@@ -46,7 +46,7 @@ const NewPropertyAlert = (props) => {
 				</Button>
 			</DialogActions>
 		</Dialog>
-	)
-}
+	);
+};
 
-export default NewPropertyAlert
+export default NewPropertyAlert;
