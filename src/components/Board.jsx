@@ -28,7 +28,6 @@ const Board = (props) => {
 
 	return (
 		<Box>
-			{/*<Button onClick={movePlayer}>Press me to move</Button>*/}
 			<Box
 				sx={{
 					display: "grid",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import Card from "@mui/material/Card";
@@ -9,29 +9,30 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
+import { v4 as uuidv4 } from "uuid";
 
-function not(a, b) {
+const not = (a, b) => {
 	return a.filter((value) => b.indexOf(value) === -1);
 }
 
-function intersection(a, b) {
+const intersection = (a, b) => {
 	return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-function union(a, b) {
+const union = (a, b) => {
 	return [...a, ...not(b, a)];
 }
 
 export default function PropertySelection(props) {
 	const [checked, setChecked] = React.useState([]);
-	const [left, setLeft] = React.useState(props.curPlayerProjects);
-	const [right, setRight] = React.useState(props.selectedPlayerProjects);
-	console.log(props);
 
 	useEffect(() => {
-		const leftChecked = intersection(checked, left);
-		const rightChecked = intersection(checked, right);
-		console.log(leftChecked, rightChecked);
+		setChecked([])
+	}, [props.reset])
+
+	useEffect(() => {
+		const leftChecked = intersection(checked, props.curPlayerProjects);
+		const rightChecked = intersection(checked, props.selectedPlayerProjects);
 		props.handleBoughtProperties(rightChecked);
 		props.handleSoldProperties(leftChecked);
 	}, [checked]);
@@ -95,12 +96,11 @@ export default function PropertySelection(props) {
 				role="list"
 			>
 				{items.map((value) => {
-					console.log(value.projectName);
 					const labelId = `transfer-list-all-item-${value}-label`;
 
 					return (
 						<ListItem
-							key={value}
+							key={uuidv4()}
 							role="listitem"
 							button
 							onClick={handleToggle(value)}

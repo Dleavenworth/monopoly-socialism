@@ -14,8 +14,15 @@ const ItemSelection = (props) => {
 	const [tradeChance, setTradeChance] = useState(false);
 
 	useEffect(() => {
-		props.changeSelectedItems([tradeProjects, tradeMoney, tradeChance])
-	}, [tradeMoney, tradeProjects, tradeChance])
+		props.changeSelectedItems([tradeProjects, tradeMoney, tradeChance]);
+	}, [tradeMoney, tradeProjects, tradeChance]);
+
+	useEffect(() => {
+		setTradeMoney(false);
+		setTradeProjects(false);
+		setTradeChance(false);
+		console.log("resetting item selection")
+	}, [props.reset])
 
 	const handleSelectionChange = (e, selection) => {
 		switch (selection) {

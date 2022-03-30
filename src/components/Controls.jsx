@@ -1,8 +1,9 @@
 import React from "react";
-import { Button, Box } from "@mui/material";
+import { List, ListItem, Drawer, Toolbar, Box } from "@mui/material";
 import CellTypes from "../CellTypes";
 
 const Controls = (props) => {
+	const drawerWidth = 240
 	const rollDie = () => {
 		let movementDie = Math.floor(Math.random() * 6) + 1;
 		let actionDie = Math.floor(Math.random() * 6) + 1;
@@ -57,6 +58,7 @@ const Controls = (props) => {
 		}
 
 		handleMove();
+		props.signalMoving();
 	};
 
 	const handleMove = () => {
@@ -99,15 +101,28 @@ const Controls = (props) => {
 	};
 
 	const startTrade = () => {
-		console.log("in the on click")
-		props.startTrade()
+		console.log("in the on click");
+		props.startTrade();
 	};
 
 	return (
-		<Box>
-			<Button onClick={movePlayer}>Press me to move</Button>
-			<Button onClick={startTrade}>Press me to trade projects</Button>
+		<Drawer
+			variant="permanent"
+			anchor="right"
+			sx={{
+				width: drawerWidth,
+				
+				"& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box" },
+			}}
+		>
+			<Toolbar/>
+			<Box sx={{overflow: "auto"}}>
+				<List>
+			<ListItem key="move" button onClick={movePlayer}>Move</ListItem>
+			<ListItem key="trade" button onClick={startTrade}>Trade</ListItem>
+			</List>
 		</Box>
+		</Drawer>
 	);
 };
 

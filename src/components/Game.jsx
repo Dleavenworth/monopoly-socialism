@@ -18,7 +18,8 @@ const Game = () => {
 	let curPlayerTurn = useRef(1);
 	let playerGettingProperty = useRef(undefined);
 	const [propertyAlert, setPropertyAlert] = useState(false);
-	const [isTrading, setIsTrading] = useState(false)
+	const [isTrading, setIsTrading] = useState(false);
+	const [reset, setReset] = useState(false);
 
 	const makeBoard = () => {
 		let col = 1;
@@ -27,7 +28,7 @@ const Game = () => {
 		let curType = CellTypes.Cell;
 		const totalSquares = gridSize * 2 + (gridSize - 2) * 2;
 		let propertyCounter = 0;
-		let curDescription = ProjectTypes.getPropList()[0];
+		let curDescription = "";
 		let cornerCounter = 0;
 
 		for (let i = 0; i < totalSquares; i++) {
@@ -78,13 +79,11 @@ const Game = () => {
 	};
 
 	const openPropertyAlert = (player) => {
-		console.log("setting prop alert");
 		playerGettingProperty.current = player;
 		setPropertyAlert(true);
 	};
 
 	const handleNewPropertyAccept = () => {
-		console.log("Accept new property");
 		let newPlayers = players;
 		let newSquares = squares;
 		newPlayers[playerGettingProperty.current - 1].properties.push(
@@ -101,22 +100,106 @@ const Game = () => {
 	};
 
 	const handleNewPropertyDecline = () => {
-		console.log("Reject new property");
 		setPropertyAlert(false);
 	};
 
 	const startTrade = () => {
-		console.log("WHAT")
-		setIsTrading(true)
-	}
+		setIsTrading(true);
+	};
 
 	const closeDialog = () => {
-		setIsTrading(false)
+		setIsTrading(false);
+	};
+
+	const handleTrade = (
+		propertiesBought,
+		propertiesSold,
+		playerOffering,
+		playerGettingOffer
+	) => {
+		let newSquares = [...squares];
+		let newPlayers = [...players];
+		console.log(squares);
+		console.log(players)
+
+		// Add the properties bought to the properties held by the current player
+		// Remove the properties sold from the current players properties
+		// Change the owner marking on those cells
+		// Add the properties sold to the properties held by the player getting the offer
+		// Remove the properties bought from the player getting the offer
+		// Change the owner marking on those cells
+
+		// Add the properties bought to the properties held by the current player
+		propertiesBought.forEach((property) => {
+			newPlayers[playerOffering.current - 1].properties.push(property);
+			// Adjust the cell to have a new owner
+			let indexToAdjust = newSquares.findIndex(
+				(element) => element.description === property
+			);
+			newSquares[indexToAdjust].owner =
+				newPlayers[playerOffering.current - 1].color;
+		});
+		// Remove the sold properties from the current player properties
+		propertiesSold.forEach((property) => {
+			let playerOfferingObj = newPlayers[playerOffering.current - 1];
+			let indexToRemove = playerOfferingObj.properties.findIndex(
+				(element) => element === property
+			);
+			if(indexToRemove < 0) {
+				newPlayers[playerOffering.current - 1].properties.splice(
+					indexToRemove,
+					1
+				);
+			}
+			else {
+				return
+			}
+		});
+
+		// Remove the properties bought from the properties help by the player getting the offer
+		propertiesBought.forEach((property) => {
+			let playerGettingOfferObj = newPlayers[playerGettingOffer];
+			let indexToRemove = playerGettingOfferObj.properties.findIndex(
+				(element) => element === property
+			);
+			if(indexToRemove < 0 ) { 
+				newPlayers[playerGettingOffer].properties.splice(indexToRemove, 1);
+			}
+			else {
+				return
+			}
+		});
+
+		// Add the properties sold to the properties held by the player getting the offer
+		propertiesSold.forEach((property) => {
+			newPlayers[playerGettingOffer].properties.push(property);
+			// Adjust the cell to have a new owner
+			let indexToAdjust = newSquares.findIndex(
+				(element) => element.description === property
+			);
+			newSquares[indexToAdjust].owner = newPlayers[playerGettingOffer].color;
+		});
+		console.log(newSquares);
+		console.log(newPlayers)
+		setSquares(newSquares);
+		setPlayers(newPlayers);
+	};
+
+	const signalMoving = () => {
+		setReset(!reset);
 	}
 
 	return (
 		<Box>
-			<TradeDialog closeDialog={closeDialog} playerStarting={curPlayerTurn} players={players} squares={squares} open={isTrading} />
+			<TradeDialog
+				handleTrade={handleTrade}
+				closeDialog={closeDialog}
+				playerStarting={curPlayerTurn}
+				players={players}
+				squares={squares}
+				open={isTrading}
+				reset={reset}
+			/>
 			<NewPropertyAlert
 				open={propertyAlert}
 				handleAccept={handleNewPropertyAccept}
@@ -134,6 +217,7 @@ const Game = () => {
 						handleUpdatePlayers={updatePlayers}
 						openPropertyAlert={openPropertyAlert}
 						startTrade={startTrade}
+						signalMoving={signalMoving}
 					/>
 				</Box>
 			</Box>
