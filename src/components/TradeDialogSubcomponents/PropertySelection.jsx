@@ -1,34 +1,36 @@
 import React, { useEffect } from "react";
-import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
+import {
+	Grid,
+	List,
+	Card,
+	CardHeader,
+	ListItem,
+	ListItemText,
+	ListItemIcon,
+	Checkbox,
+	Button,
+	Divider,
+} from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 
 const not = (a, b) => {
 	return a.filter((value) => b.indexOf(value) === -1);
-}
+};
 
 const intersection = (a, b) => {
 	return a.filter((value) => b.indexOf(value) !== -1);
-}
+};
 
 const union = (a, b) => {
 	return [...a, ...not(b, a)];
-}
+};
 
-export default function PropertySelection(props) {
+const PropertySelection = (props) => {
 	const [checked, setChecked] = React.useState([]);
 
 	useEffect(() => {
-		setChecked([])
-	}, [props.reset])
+		setChecked([]);
+	}, [props.reset]);
 
 	useEffect(() => {
 		const leftChecked = intersection(checked, props.curPlayerProjects);
@@ -154,4 +156,6 @@ export default function PropertySelection(props) {
 			</Grid>
 		</Grid>
 	);
-}
+};
+
+export default PropertySelection;

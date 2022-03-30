@@ -21,8 +21,8 @@ const ItemSelection = (props) => {
 		setTradeMoney(false);
 		setTradeProjects(false);
 		setTradeChance(false);
-		console.log("resetting item selection")
-	}, [props.reset])
+		console.log("resetting item selection");
+	}, [props.reset]);
 
 	const handleSelectionChange = (e, selection) => {
 		switch (selection) {

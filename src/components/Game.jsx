@@ -137,6 +137,7 @@ const Game = () => {
 			newSquares[indexToAdjust].owner =
 				newPlayers[playerOffering.current - 1].color;
 		});
+
 		// Remove the sold properties from the current player properties
 		propertiesSold.forEach((property) => {
 			let playerOfferingObj = newPlayers[playerOffering.current - 1];
@@ -160,7 +161,7 @@ const Game = () => {
 			let indexToRemove = playerGettingOfferObj.properties.findIndex(
 				(element) => element === property
 			);
-			if(indexToRemove >= 0 ) { 
+			if(indexToRemove >= 0 ) {
 				newPlayers[playerGettingOffer-1].properties.splice(indexToRemove, 1);
 			}
 			else {

@@ -28,7 +28,6 @@ import { v4 as uuidv4 } from "uuid";
 // Trading property is using the transfer list too
 // Trading chance cards is using the transfer list too
 
-
 // The issue with the results of trades not being shown is because props.players does not get updated to the version created by handleTrade()
 const TradeDialog = (props) => {
 	let open = useRef(props.open);
@@ -43,9 +42,9 @@ const TradeDialog = (props) => {
 	}, [props.reset]);
 
 	useEffect(() => {
-		console.log("players were changed")
-		console.log(props.players)
-	}, [props.players])
+		console.log("players were changed");
+		console.log(props.players);
+	}, [props.players]);
 
 	const triggerReset = () => {
 		setSelectedPlayer("");
@@ -59,7 +58,7 @@ const TradeDialog = (props) => {
 
 	const handleSelectedPlayer = (e) => {
 		let selectedPlayerNum = e.target.value;
-		console.log(props.players[selectedPlayerNum - 1].properties)
+		console.log(props.players[selectedPlayerNum - 1].properties);
 		setSelectedPlayer(selectedPlayerNum);
 		//selectedPlayerProjects = [...props.players[selectedPlayerNum - 1].properties]
 		setSelectedPlayerProjects([
