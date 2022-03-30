@@ -27,42 +27,44 @@ import { v4 as uuidv4 } from "uuid";
 // We are trading money, which is a text field entry
 // Trading property is using the transfer list too
 // Trading chance cards is using the transfer list too
+
+
+// The issue with the results of trades not being shown is because props.players does not get updated to the version created by handleTrade()
 const TradeDialog = (props) => {
-	console.log("re render")
 	let open = useRef(props.open);
 	const [selectedPlayer, setSelectedPlayer] = useState("");
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [selectedPlayerProjects, setSelectedPlayerProjects] = useState([]);
-	const [curPlayerProjects, setCurPlayerProjects] = useState([
-		...props.players[props.playerStarting.current - 1].properties,
-	]);
 	const [propertiesSold, setPropertiesSold] = useState();
 	const [propertiesBought, setPropertiesBought] = useState();
 
 	useEffect(() => {
-		triggerReset()
-	}, [props.reset])
+		triggerReset();
+	}, [props.reset]);
+
+	useEffect(() => {
+		console.log("players were changed")
+		console.log(props.players)
+	}, [props.players])
 
 	const triggerReset = () => {
 		setSelectedPlayer("");
 		setSelectedItems([]);
-	}
+	};
 
 	const handleClose = () => {
-		console.log("closing");
 		open.current = false;
 		props.closeDialog();
 	};
 
 	const handleSelectedPlayer = (e) => {
 		let selectedPlayerNum = e.target.value;
+		console.log(props.players[selectedPlayerNum - 1].properties)
 		setSelectedPlayer(selectedPlayerNum);
+		//selectedPlayerProjects = [...props.players[selectedPlayerNum - 1].properties]
 		setSelectedPlayerProjects([
 			...props.players[selectedPlayerNum - 1].properties,
 		]);
-		console.log(props.players[props.playerStarting.current - 1]);
-		console.log(curPlayerProjects);
-		console.log(props.players[selectedPlayerNum - 1]);
 	};
 
 	const changeSelectedItems = (newItems) => {
@@ -84,9 +86,10 @@ const TradeDialog = (props) => {
 			props.playerStarting,
 			selectedPlayer
 		);
-		setSelectedPlayer("")
+		setSelectedPlayer("");
+		//setSelectedPlayerProjects([])
 		triggerReset();
-		handleClose()
+		handleClose();
 	};
 
 	return (
@@ -154,7 +157,9 @@ const TradeDialog = (props) => {
 							<PropertySelection
 								handleBoughtProperties={handleBoughtProperties}
 								handleSoldProperties={handleSoldProperties}
-								curPlayerProjects={curPlayerProjects}
+								curPlayerProjects={[
+									...props.players[props.playerStarting.current - 1].properties,
+								]}
 								selectedPlayerProjects={selectedPlayerProjects}
 							/>
 						) : null}

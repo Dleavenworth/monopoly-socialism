@@ -95,8 +95,8 @@ const Game = () => {
 		newSquares[players[playerGettingProperty.current - 1].location].owner =
 			newPlayers[playerGettingProperty.current - 1].color;
 		setPropertyAlert(false);
-		setPlayers(newPlayers);
-		setSquares(newSquares);
+		setPlayers([...newPlayers]);
+		setSquares([...newSquares]);
 	};
 
 	const handleNewPropertyDecline = () => {
@@ -117,10 +117,8 @@ const Game = () => {
 		playerOffering,
 		playerGettingOffer
 	) => {
-		let newSquares = [...squares];
-		let newPlayers = [...players];
-		console.log(squares);
-		console.log(players)
+		let newSquares = squares
+		let newPlayers = players
 
 		// Add the properties bought to the properties held by the current player
 		// Remove the properties sold from the current players properties
@@ -145,7 +143,7 @@ const Game = () => {
 			let indexToRemove = playerOfferingObj.properties.findIndex(
 				(element) => element === property
 			);
-			if(indexToRemove < 0) {
+			if(indexToRemove >= 0) {
 				newPlayers[playerOffering.current - 1].properties.splice(
 					indexToRemove,
 					1
@@ -156,14 +154,14 @@ const Game = () => {
 			}
 		});
 
-		// Remove the properties bought from the properties help by the player getting the offer
+		// Remove the properties bought from the properties held by the player getting the offer
 		propertiesBought.forEach((property) => {
-			let playerGettingOfferObj = newPlayers[playerGettingOffer];
+			let playerGettingOfferObj = newPlayers[playerGettingOffer-1];
 			let indexToRemove = playerGettingOfferObj.properties.findIndex(
 				(element) => element === property
 			);
-			if(indexToRemove < 0 ) { 
-				newPlayers[playerGettingOffer].properties.splice(indexToRemove, 1);
+			if(indexToRemove >= 0 ) { 
+				newPlayers[playerGettingOffer-1].properties.splice(indexToRemove, 1);
 			}
 			else {
 				return
@@ -172,15 +170,14 @@ const Game = () => {
 
 		// Add the properties sold to the properties held by the player getting the offer
 		propertiesSold.forEach((property) => {
-			newPlayers[playerGettingOffer].properties.push(property);
+			newPlayers[playerGettingOffer-1].properties.push(property);
 			// Adjust the cell to have a new owner
 			let indexToAdjust = newSquares.findIndex(
 				(element) => element.description === property
 			);
-			newSquares[indexToAdjust].owner = newPlayers[playerGettingOffer].color;
+			newSquares[indexToAdjust].owner = newPlayers[playerGettingOffer-1].color;
 		});
-		console.log(newSquares);
-		console.log(newPlayers)
+
 		setSquares(newSquares);
 		setPlayers(newPlayers);
 	};
