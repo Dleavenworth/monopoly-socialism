@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Controls from "./Controls";
 import Board from "./Board";
 import { Box } from "@mui/material";
 import CellTypes from "../CellTypes";
-import NewPropertyAlert from "./NewPropertyAlert";
+import PropertyAlert from "./PropertyAlert";
 import ProjectTypes from "../ProjectTypes";
 import TradeDialog from "./TradeDialog";
+import ShuttleAlert from "./ShuttleAlert"
 
 const Game = () => {
 	const gridSize = 9;
@@ -187,6 +188,10 @@ const Game = () => {
 		setReset(!reset);
 	}
 
+	const openShuttleAlert = () => {
+
+	}
+
 	return (
 		<Box>
 			<TradeDialog
@@ -198,11 +203,14 @@ const Game = () => {
 				open={isTrading}
 				reset={reset}
 			/>
-			<NewPropertyAlert
+			<PropertyAlert
 				open={propertyAlert}
 				handleAccept={handleNewPropertyAccept}
 				handleDecline={handleNewPropertyDecline}
+				title="New project"
+				content="Do you want to develop this project?"
 			/>
+			<ShuttleAlert/>
 			<Box sx={{ display: "flex" }}>
 				<Box sx={{ flexGrow: 1 }}>
 					<Board players={players} gridSize={gridSize} squares={squares} />
@@ -216,6 +224,8 @@ const Game = () => {
 						openPropertyAlert={openPropertyAlert}
 						startTrade={startTrade}
 						signalMoving={signalMoving}
+						openShuttleAlert={openShuttleAlert}
+						
 					/>
 				</Box>
 			</Box>

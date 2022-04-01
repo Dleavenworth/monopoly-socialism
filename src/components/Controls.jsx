@@ -87,6 +87,7 @@ const Controls = (props) => {
 				console.log("At chance");
 				break;
 			case CellTypes.Shuttle:
+				props.openShuttleAlert()
 				console.log("At shuttle");
 				break;
 			default:
