@@ -55,6 +55,32 @@ const Cell = forwardRef((props, ref) => {
 						<Typography>Chance</Typography>
 					</>
 	 			) : null}
+				{props.type === CellTypes.Shuttle ? (
+					<>
+						<Typography>Commmunity Shuttle</Typography>
+						<Typography>$50</Typography>
+					</>
+				) : null}
+				{props.type === CellTypes.Jail ? (
+					<>
+						<Typography>Jail</Typography>
+					</>
+				) : null}
+				{props.type === CellTypes.Go ? (
+					<>
+						<Typography>Go</Typography>
+					</>
+				) : null}
+				{props.type === CellTypes.GoToJail ? (
+					<>
+						<Typography>Go To Jail</Typography>
+					</>
+				) : null}
+				{props.type === CellTypes.Parking ? (
+					<>
+						<Typography>Free Parking</Typography>
+					</>
+				) : null}
 			</Box>
 		</Box>
 	);
