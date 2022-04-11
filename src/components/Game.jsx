@@ -36,8 +36,14 @@ const Game = () => {
 		for (let i = 0; i < totalSquares; i++) {
 			//0 8 16 24 for corners
 			//4 12 20 28 for shuttles
-			if (i === gridSize * cornerCounter - cornerCounter) {
-				curType = CellTypes.getPropList()[cornerCounter];
+			if (i === 0) {
+				curType = CellTypes.Go;
+			} else if(i === 8){
+				curType = CellTypes.Jail;
+			} else if(i === 16){
+				curType = CellTypes.Parking;
+			} else if(i === 24){
+				curType = CellTypes.GoToJail;
 			} else if (i % (gridSize - 1) === (gridSize - 1) / 2) {
 				curType = CellTypes.Shuttle;
 			} else if (i % 2 !== 0) {
