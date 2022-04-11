@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/monopoly-socialism/static/css/main.fc96dcd1.css",
+    "main.js": "/monopoly-socialism/static/js/main.4e76715f.js",
+    "static/js/787.54b3ee41.chunk.js": "/monopoly-socialism/static/js/787.54b3ee41.chunk.js",
+    "index.html": "/monopoly-socialism/index.html",
+    "main.fc96dcd1.css.map": "/monopoly-socialism/static/css/main.fc96dcd1.css.map",
+    "main.4e76715f.js.map": "/monopoly-socialism/static/js/main.4e76715f.js.map",
+    "787.54b3ee41.chunk.js.map": "/monopoly-socialism/static/js/787.54b3ee41.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fc96dcd1.css",
+    "static/js/main.4e76715f.js"
+  ]
+}
