@@ -21,6 +21,7 @@ const Game = () => {
 	const [propertyAlert, setPropertyAlert] = useState(false);
 	const [isTrading, setIsTrading] = useState(false);
 	const [reset, setReset] = useState(false);
+	const [isShuttling, setIsShuttling] = useState(false);
 
 	const makeBoard = () => {
 		let col = 1;
@@ -112,6 +113,74 @@ const Game = () => {
 		setIsTrading(false);
 	};
 
+	const movePlayer = (numToMove) => {
+		//let numToMove = rollDie();
+		console.log(numToMove)
+		let newPlayers = players;
+		const curPlayerLocation =
+			newPlayers[curPlayerTurn.current - 1].location;
+		let newPlayerLocation = curPlayerLocation;
+
+		if (curPlayerLocation + numToMove >= squares.length) {
+			newPlayerLocation = curPlayerLocation + numToMove - squares.length;
+		} else {
+			newPlayerLocation += numToMove;
+		}
+
+		newPlayers[curPlayerTurn.current - 1].location = newPlayerLocation;
+
+		updatePlayers([...newPlayers]);
+
+		while (players !== newPlayers) {
+			console.log("while loop doing something??");
+		}
+
+		handleMove();
+		//signalMoving();
+	};
+
+	const handleMove = () => {
+		console.log(squares)
+		const curCell =
+			squares[players[curPlayerTurn.current - 1].location];
+		console.log(curCell)
+		switch (curCell.type) {
+			case CellTypes.Start:
+				break;
+			case CellTypes.GoToJail:
+				console.log("Going to jail");
+				break;
+			case CellTypes.Go:
+				console.log("Passing go, get money!");
+				break;
+			case CellTypes.Jail:
+				console.log("At jail");
+				break;
+			case CellTypes.Property:
+				if (curCell.owner === undefined) {
+					openPropertyAlert(curPlayerTurn.current);
+				}
+				console.log("At property");
+				break;
+			case CellTypes.Chance:
+				console.log("At chance");
+				break;
+			case CellTypes.Shuttle:
+				openShuttleAlert()
+				console.log("At shuttle");
+				curPlayerTurn.current--
+				break;
+			default:
+				throw new Error("Invalid cell type");
+		}
+
+		if (curPlayerTurn.current >= 4) {
+			curPlayerTurn.current = 1;
+		} else {
+			curPlayerTurn.current++;
+		}
+	};
+
 	const handleTrade = (
 		propertiesBought,
 		propertiesSold,
@@ -189,7 +258,16 @@ const Game = () => {
 	}
 
 	const openShuttleAlert = () => {
+		setIsShuttling(true)
+	}
 
+	const handleShuttleAccept = (toMove) => {
+		setIsShuttling(false)
+		movePlayer(toMove)
+	}
+
+	const handleShuttleDecline = () => {
+		setIsShuttling(false)
 	}
 
 	return (
@@ -210,7 +288,8 @@ const Game = () => {
 				title="New project"
 				content="Do you want to develop this project?"
 			/>
-			<ShuttleAlert/>
+			<ShuttleAlert max={squares.length} title="Community shuttle" content="Use the slider to indicate how many spaces you wish to move" 
+			open={isShuttling} handleAccept={handleShuttleAccept} handleDecline={handleShuttleDecline}/>
 			<Box sx={{ display: "flex" }}>
 				<Box sx={{ flexGrow: 1 }}>
 					<Board players={players} gridSize={gridSize} squares={squares} />
@@ -225,6 +304,7 @@ const Game = () => {
 						startTrade={startTrade}
 						signalMoving={signalMoving}
 						openShuttleAlert={openShuttleAlert}
+						movePlayer={movePlayer}
 						
 					/>
 				</Box>

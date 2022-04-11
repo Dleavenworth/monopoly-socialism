@@ -4,6 +4,7 @@ import CellTypes from "../CellTypes";
 
 const Controls = (props) => {
 	const drawerWidth = 240
+
 	const rollDie = () => {
 		let movementDie = Math.floor(Math.random() * 6) + 1;
 		let actionDie = Math.floor(Math.random() * 6) + 1;
@@ -36,7 +37,7 @@ const Controls = (props) => {
 		return movementDie;
 	};
 
-	const movePlayer = () => {
+	/*const movePlayer = () => {
 		let numToMove = rollDie();
 		let newPlayers = props.players;
 		const curPlayerLocation =
@@ -57,11 +58,11 @@ const Controls = (props) => {
 			console.log("while loop doing something??");
 		}
 
-		handleMove();
+		props.handleMove();
 		props.signalMoving();
-	};
+	};*/
 
-	const handleMove = () => {
+	/*const handleMove = () => {
 		console.log(props);
 		const curCell =
 			props.squares[props.players[props.curPlayerTurn.current - 1].location];
@@ -99,7 +100,7 @@ const Controls = (props) => {
 		} else {
 			props.curPlayerTurn.current++;
 		}
-	};
+	};*/
 
 	const startTrade = () => {
 		console.log("in the on click");
@@ -119,7 +120,7 @@ const Controls = (props) => {
 			<Toolbar/>
 			<Box sx={{overflow: "auto"}}>
 				<List>
-			<ListItem key="move" button onClick={movePlayer}>Move</ListItem>
+			<ListItem key="move" button onClick={() => props.movePlayer(rollDie())}>Move</ListItem>
 			<ListItem key="trade" button onClick={startTrade}>Trade</ListItem>
 			</List>
 		</Box>
