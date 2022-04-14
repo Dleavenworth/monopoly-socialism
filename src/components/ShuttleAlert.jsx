@@ -32,8 +32,8 @@ const ShuttleAlert = (props) => {
 
 	return (
 		<GeneralAlert title={props.title} content={content} open={props.open}>
-			<Button onClick={handleClose}>Do not use shuttle</Button>
-			<Button onClick={handleClose}>Move with shuttle</Button>
+			<Button onClick={() => handleClose(false)}>Do not use shuttle</Button>
+			<Button onClick={() => handleClose(true)}>Move with shuttle</Button>
 		</GeneralAlert>
 	);
 };

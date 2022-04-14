@@ -1,20 +1,21 @@
 import React, { useState, useRef } from "react";
 import Controls from "./Controls";
 import Board from "./Board";
-import { Box } from "@mui/material";
+import { Alert, Box, IconButton } from "@mui/material";
 import CellTypes from "../CellTypes";
 import PropertyAlert from "./PropertyAlert";
 import ProjectTypes from "../ProjectTypes";
 import TradeDialog from "./TradeDialog";
 import ShuttleAlert from "./ShuttleAlert"
+import { Close as CloseIcon } from "@mui/icons-material"
 
 const Game = () => {
 	const gridSize = 9;
 	const [players, setPlayers] = useState([
 		{ num: 1, location: 0, properties: [], color: "red", money: 0 },
-		{ num: 2, location: 0, properties: [], color: "blue", money: 0 },
-		{ num: 3, location: 0, properties: [], color: "green", money: 0 },
-		{ num: 4, location: 0, properties: [], color: "orange", money: 0 },
+		{ num: 2, location: 0, properties: [], color: "blue", money: 100 },
+		{ num: 3, location: 0, properties: [], color: "green", money: 100 },
+		{ num: 4, location: 0, properties: [], color: "orange", money: 100 },
 	]);
 	let curPlayerTurn = useRef(1);
 	let playerGettingProperty = useRef(undefined);
@@ -94,6 +95,13 @@ const Game = () => {
 	const handleNewPropertyAccept = () => {
 		let newPlayers = players;
 		let newSquares = squares;
+		setPropertyAlert(false);
+
+		if(newPlayers[playerGettingProperty.current - 1].money < 50) {
+			console.log("Not enough money for new property")
+			return
+		}
+
 		newPlayers[playerGettingProperty.current - 1].properties.push(
 			squares[newPlayers[playerGettingProperty.current - 1].location]
 				.description
@@ -102,7 +110,7 @@ const Game = () => {
 		console.log(playerGettingProperty.current);
 		newSquares[players[playerGettingProperty.current - 1].location].owner =
 			newPlayers[playerGettingProperty.current - 1].color;
-		setPropertyAlert(false);
+		newPlayers[playerGettingProperty.current - 1].money -= 50
 		setPlayers([...newPlayers]);
 		setSquares([...newSquares]);
 	};
@@ -176,6 +184,9 @@ const Game = () => {
 				console.log("At shuttle");
 				curPlayerTurn.current--
 				break;
+			case CellTypes.Parking:
+				console.log("Free parking!")
+				break
 			default:
 				throw new Error("Invalid cell type");
 		}
@@ -268,12 +279,27 @@ const Game = () => {
 	}
 
 	const handleShuttleAccept = (toMove) => {
+		let newPlayers = players
 		setIsShuttling(false)
+
+		if(newPlayers[curPlayerTurn.current - 1].money < 50) {
+			console.log("Not enough money for shuttle")
+			return
+		}
+
+		newPlayers[curPlayerTurn.current - 1].money -= 50
+
+
+		setPlayers(newPlayers)
 		movePlayer(toMove)
 	}
 
 	const handleShuttleDecline = () => {
 		setIsShuttling(false)
+	}
+
+	const setErrorOpen = () => {
+		console.log("FHAHF")
 	}
 
 	return (
@@ -315,6 +341,7 @@ const Game = () => {
 					/>
 				</Box>
 			</Box>
+			<Alert action={<IconButton color="inherit" size="small" onClick={() => setErrorOpen(false)}><CloseIcon fontSize="inherit"/></IconButton>} sx={{mb: 2 }}></Alert>
 		</Box>
 	);
 };
