@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Controls from "./Controls";
 import Board from "./Board";
-import { Alert, Box, IconButton } from "@mui/material";
+import { Alert, Box, IconButton, Collapse } from "@mui/material";
 import CellTypes from "../CellTypes";
 import PropertyAlert from "./PropertyAlert";
 import ProjectTypes from "../ProjectTypes";
@@ -23,6 +23,7 @@ const Game = () => {
 	const [isTrading, setIsTrading] = useState(false);
 	const [reset, setReset] = useState(false);
 	const [isShuttling, setIsShuttling] = useState(false);
+	const [errorAlert, setErrorAlert] = useState(false);
 
 	const makeBoard = () => {
 		let col = 1;
@@ -99,6 +100,7 @@ const Game = () => {
 
 		if(newPlayers[playerGettingProperty.current - 1].money < 50) {
 			console.log("Not enough money for new property")
+			setErrorAlert(true)
 			return
 		}
 
@@ -284,6 +286,7 @@ const Game = () => {
 
 		if(newPlayers[curPlayerTurn.current - 1].money < 50) {
 			console.log("Not enough money for shuttle")
+			setErrorAlert(true)
 			return
 		}
 
@@ -341,7 +344,9 @@ const Game = () => {
 					/>
 				</Box>
 			</Box>
-			<Alert action={<IconButton color="inherit" size="small" onClick={() => setErrorOpen(false)}><CloseIcon fontSize="inherit"/></IconButton>} sx={{mb: 2 }}></Alert>
+			<Collapse in={errorAlert}>
+				<Alert sx={{width: "15vw"}} severity="error" action={<IconButton color="inherit" size="small" onClick={() => setErrorAlert(false)}><CloseIcon fontSize="inherit"/></IconButton>}>Not enough money!</Alert>
+			</Collapse>
 		</Box>
 	);
 };
