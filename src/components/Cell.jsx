@@ -50,6 +50,12 @@ const Cell = forwardRef((props, ref) => {
 						<Typography>Name: {props.name}</Typography>
 					</>
 				) : null}
+				{props.type === CellTypes.Chest ? (
+					<>
+						<Typography>Communinty Chest</Typography>
+						<Typography>Money: ${props.money}</Typography>
+					</>
+				) : null}
 				{props.type === CellTypes.Chance ? (
 					<>
 						<Typography>Chance</Typography>

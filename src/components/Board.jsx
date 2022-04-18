@@ -21,6 +21,7 @@ const Board = (props) => {
 					column={curSquare.col}
 					owner={curSquare.owner}
 					name={curSquare.description.projectName}
+					money={curSquare.money}
 				/>
 			);
 		});

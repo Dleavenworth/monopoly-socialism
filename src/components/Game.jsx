@@ -3,6 +3,7 @@ import Controls from "./Controls";
 import Board from "./Board";
 import { Alert, Box, IconButton, Collapse } from "@mui/material";
 import CellTypes from "../CellTypes";
+import CommunityChest from "../CommunityChest";
 import PropertyAlert from "./PropertyAlert";
 import ProjectTypes from "../ProjectTypes";
 import TradeDialog from "./TradeDialog";
@@ -79,6 +80,15 @@ const Game = () => {
 
 			newSquares.push(square);
 		}
+		const center = {
+			col: 6,
+			row: 6,
+			type: CellTypes.Chest,
+			owner: undefined,
+			description: "something",
+			money:CommunityChest.getTotal(),
+		};
+		newSquares.push(center);
 		return newSquares;
 	};
 
