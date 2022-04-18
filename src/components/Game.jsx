@@ -7,8 +7,8 @@ import CommunityChest from "../CommunityChest";
 import PropertyAlert from "./PropertyAlert";
 import ProjectTypes from "../ProjectTypes";
 import TradeDialog from "./TradeDialog";
-import ShuttleAlert from "./ShuttleAlert"
-import { Close as CloseIcon } from "@mui/icons-material"
+import ShuttleAlert from "./ShuttleAlert";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 const Game = () => {
 	const gridSize = 9;
@@ -34,18 +34,17 @@ const Game = () => {
 		const totalSquares = gridSize * 2 + (gridSize - 2) * 2;
 		let propertyCounter = 0;
 		let curDescription = "";
-		let cornerCounter = 0;
 
 		for (let i = 0; i < totalSquares; i++) {
 			//0 8 16 24 for corners
 			//4 12 20 28 for shuttles
 			if (i === 0) {
 				curType = CellTypes.Go;
-			} else if(i === 8){
+			} else if (i === 8) {
 				curType = CellTypes.Jail;
-			} else if(i === 16){
+			} else if (i === 16) {
 				curType = CellTypes.Parking;
-			} else if(i === 24){
+			} else if (i === 24) {
 				curType = CellTypes.GoToJail;
 			} else if (i % (gridSize - 1) === (gridSize - 1) / 2) {
 				curType = CellTypes.Shuttle;
@@ -86,7 +85,7 @@ const Game = () => {
 			type: CellTypes.Chest,
 			owner: undefined,
 			description: "something",
-			money:CommunityChest.getTotal(),
+			money: CommunityChest.getTotal(),
 		};
 		newSquares.push(center);
 		return newSquares;
@@ -108,10 +107,10 @@ const Game = () => {
 		let newSquares = squares;
 		setPropertyAlert(false);
 
-		if(newPlayers[playerGettingProperty.current - 1].money < 50) {
-			console.log("Not enough money for new property")
-			setErrorAlert(true)
-			return
+		if (newPlayers[playerGettingProperty.current - 1].money < 50) {
+			console.log("Not enough money for new property");
+			setErrorAlert(true);
+			return;
 		}
 
 		newPlayers[playerGettingProperty.current - 1].properties.push(
@@ -122,7 +121,7 @@ const Game = () => {
 		console.log(playerGettingProperty.current);
 		newSquares[players[playerGettingProperty.current - 1].location].owner =
 			newPlayers[playerGettingProperty.current - 1].color;
-		newPlayers[playerGettingProperty.current - 1].money -= 50
+		newPlayers[playerGettingProperty.current - 1].money -= 50;
 		setPlayers([...newPlayers]);
 		setSquares([...newSquares]);
 	};
@@ -141,10 +140,9 @@ const Game = () => {
 
 	const movePlayer = (numToMove) => {
 		//let numToMove = rollDie();
-		console.log(numToMove)
+		console.log(numToMove);
 		let newPlayers = players;
-		const curPlayerLocation =
-			newPlayers[curPlayerTurn.current - 1].location;
+		const curPlayerLocation = newPlayers[curPlayerTurn.current - 1].location;
 		let newPlayerLocation = curPlayerLocation;
 
 		if (curPlayerLocation + numToMove >= squares.length) {
@@ -166,10 +164,9 @@ const Game = () => {
 	};
 
 	const handleMove = () => {
-		console.log(squares)
-		const curCell =
-			squares[players[curPlayerTurn.current - 1].location];
-		console.log(curCell)
+		console.log(squares);
+		const curCell = squares[players[curPlayerTurn.current - 1].location];
+		console.log(curCell);
 		switch (curCell.type) {
 			case CellTypes.Start:
 				break;
@@ -192,16 +189,16 @@ const Game = () => {
 				console.log("At chance");
 				const currentTotal = CommunityChest.getTotal();
 				CommunityChest.setTotal(currentTotal - 10);
-				console.log("Current total: " + CommunityChest.getTotal()); 
+				console.log("Current total: " + CommunityChest.getTotal());
 				break;
 			case CellTypes.Shuttle:
-				openShuttleAlert()
+				openShuttleAlert();
 				console.log("At shuttle");
-				curPlayerTurn.current--
+				curPlayerTurn.current--;
 				break;
 			case CellTypes.Parking:
-				console.log("Free parking!")
-				break
+				console.log("Free parking!");
+				break;
 			default:
 				throw new Error("Invalid cell type");
 		}
@@ -219,8 +216,8 @@ const Game = () => {
 		playerOffering,
 		playerGettingOffer
 	) => {
-		let newSquares = squares
-		let newPlayers = players
+		let newSquares = squares;
+		let newPlayers = players;
 
 		// Add the properties bought to the properties held by the current player
 		// Remove the properties sold from the current players properties
@@ -246,39 +243,38 @@ const Game = () => {
 			let indexToRemove = playerOfferingObj.properties.findIndex(
 				(element) => element === property
 			);
-			if(indexToRemove >= 0) {
+			if (indexToRemove >= 0) {
 				newPlayers[playerOffering.current - 1].properties.splice(
 					indexToRemove,
 					1
 				);
-			}
-			else {
-				return
+			} else {
+				return;
 			}
 		});
 
 		// Remove the properties bought from the properties held by the player getting the offer
 		propertiesBought.forEach((property) => {
-			let playerGettingOfferObj = newPlayers[playerGettingOffer-1];
+			let playerGettingOfferObj = newPlayers[playerGettingOffer - 1];
 			let indexToRemove = playerGettingOfferObj.properties.findIndex(
 				(element) => element === property
 			);
-			if(indexToRemove >= 0 ) {
-				newPlayers[playerGettingOffer-1].properties.splice(indexToRemove, 1);
-			}
-			else {
-				return
+			if (indexToRemove >= 0) {
+				newPlayers[playerGettingOffer - 1].properties.splice(indexToRemove, 1);
+			} else {
+				return;
 			}
 		});
 
 		// Add the properties sold to the properties held by the player getting the offer
 		propertiesSold.forEach((property) => {
-			newPlayers[playerGettingOffer-1].properties.push(property);
+			newPlayers[playerGettingOffer - 1].properties.push(property);
 			// Adjust the cell to have a new owner
 			let indexToAdjust = newSquares.findIndex(
 				(element) => element.description === property
 			);
-			newSquares[indexToAdjust].owner = newPlayers[playerGettingOffer-1].color;
+			newSquares[indexToAdjust].owner =
+				newPlayers[playerGettingOffer - 1].color;
 		});
 
 		setSquares(newSquares);
@@ -287,36 +283,31 @@ const Game = () => {
 
 	const signalMoving = () => {
 		setReset(!reset);
-	}
+	};
 
 	const openShuttleAlert = () => {
-		setIsShuttling(true)
-	}
+		setIsShuttling(true);
+	};
 
 	const handleShuttleAccept = (toMove) => {
-		let newPlayers = players
-		setIsShuttling(false)
+		let newPlayers = players;
+		setIsShuttling(false);
 
-		if(newPlayers[curPlayerTurn.current - 1].money < 50) {
-			console.log("Not enough money for shuttle")
-			setErrorAlert(true)
-			return
+		if (newPlayers[curPlayerTurn.current - 1].money < 50) {
+			console.log("Not enough money for shuttle");
+			setErrorAlert(true);
+			return;
 		}
 
-		newPlayers[curPlayerTurn.current - 1].money -= 50
+		newPlayers[curPlayerTurn.current - 1].money -= 50;
 
-
-		setPlayers(newPlayers)
-		movePlayer(toMove)
-	}
+		setPlayers(newPlayers);
+		movePlayer(toMove);
+	};
 
 	const handleShuttleDecline = () => {
-		setIsShuttling(false)
-	}
-
-	const setErrorOpen = () => {
-		console.log("FHAHF")
-	}
+		setIsShuttling(false);
+	};
 
 	return (
 		<Box>
@@ -336,13 +327,19 @@ const Game = () => {
 				title="New project"
 				content="Do you want to develop this project?"
 			/>
-			<ShuttleAlert max={squares.length} title="Community shuttle" content="Use the slider to indicate how many spaces you wish to move" 
-			open={isShuttling} handleAccept={handleShuttleAccept} handleDecline={handleShuttleDecline}/>
+			<ShuttleAlert
+				max={squares.length}
+				title="Community shuttle"
+				content="Use the slider to indicate how many spaces you wish to move"
+				open={isShuttling}
+				handleAccept={handleShuttleAccept}
+				handleDecline={handleShuttleDecline}
+			/>
 			<Box sx={{ display: "flex" }}>
 				<Box sx={{ flexGrow: 1 }}>
 					<Board players={players} gridSize={gridSize} squares={squares} />
 				</Box>
-				<Box sx={{ flexGrow: 1 }}>
+				<Box sx={{ flexShrink: 1 }}>
 					<Controls
 						players={players}
 						curPlayerTurn={curPlayerTurn}
@@ -353,12 +350,25 @@ const Game = () => {
 						signalMoving={signalMoving}
 						openShuttleAlert={openShuttleAlert}
 						movePlayer={movePlayer}
-						
 					/>
 				</Box>
 			</Box>
 			<Collapse in={errorAlert}>
-				<Alert sx={{width: "15vw"}} severity="error" action={<IconButton color="inherit" size="small" onClick={() => setErrorAlert(false)}><CloseIcon fontSize="inherit"/></IconButton>}>Not enough money!</Alert>
+				<Alert
+					sx={{ width: "15vw" }}
+					severity="error"
+					action={
+						<IconButton
+							color="inherit"
+							size="small"
+							onClick={() => setErrorAlert(false)}
+						>
+							<CloseIcon fontSize="inherit" />
+						</IconButton>
+					}
+				>
+					Not enough money!
+				</Alert>
 			</Collapse>
 		</Box>
 	);

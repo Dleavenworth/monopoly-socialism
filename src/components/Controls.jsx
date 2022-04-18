@@ -4,7 +4,8 @@ import CellTypes from "../CellTypes";
 import CommunityChest from "../CommunityChest";
 
 const Controls = (props) => {
-	const drawerWidth = 240
+	const drawerWidth = "10vw"
+
 	let currentTotal = 0;
 
 	const rollDie = () => {
