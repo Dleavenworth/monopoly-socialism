@@ -190,6 +190,9 @@ const Game = () => {
 				break;
 			case CellTypes.Chance:
 				console.log("At chance");
+				const currentTotal = CommunityChest.getTotal();
+				CommunityChest.setTotal(currentTotal - 10);
+				console.log("Current total: " + CommunityChest.getTotal()); 
 				break;
 			case CellTypes.Shuttle:
 				openShuttleAlert()

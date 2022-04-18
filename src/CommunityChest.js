@@ -7,7 +7,7 @@ export default class CommunityChest{
     static getTotal(){
         return CommunityChest.chestTotal;
     }
-    setTotal(newTotal){
+    static setTotal(newTotal){
         CommunityChest.chestTotal = newTotal;
     }
 }

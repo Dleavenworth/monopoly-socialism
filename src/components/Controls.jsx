@@ -1,9 +1,11 @@
 import React from "react";
 import { List, ListItem, Drawer, Toolbar, Box } from "@mui/material";
 import CellTypes from "../CellTypes";
+import CommunityChest from "../CommunityChest";
 
 const Controls = (props) => {
 	const drawerWidth = 240
+	let currentTotal = 0;
 
 	const rollDie = () => {
 		let movementDie = Math.floor(Math.random() * 6) + 1;
@@ -27,9 +29,15 @@ const Controls = (props) => {
 				break;
 			case 5:
 				console.log("draw chance!");
+				currentTotal = CommunityChest.getTotal();
+				CommunityChest.setTotal(currentTotal - 20);
+				console.log("Current total: " + CommunityChest.getTotal()); 
 				break;
 			case 6:
 				console.log("draw two chance!");
+				currentTotal = CommunityChest.getTotal();
+				CommunityChest.setTotal(currentTotal - 30);
+				console.log("Current total: " + CommunityChest.getTotal()); 
 				break;
 			default:
 				throw new Error("Action die result was not between 1 and 6");
