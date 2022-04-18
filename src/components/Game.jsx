@@ -25,6 +25,7 @@ const Game = () => {
 	const [reset, setReset] = useState(false);
 	const [isShuttling, setIsShuttling] = useState(false);
 	const [errorAlert, setErrorAlert] = useState(false);
+	let communityChestTotal = useRef(CommunityChest.getTotal())
 
 	const makeBoard = () => {
 		let col = 1;
@@ -187,9 +188,10 @@ const Game = () => {
 				break;
 			case CellTypes.Chance:
 				console.log("At chance");
-				const currentTotal = CommunityChest.getTotal();
+				setCommunityChest(10)
+				/*const currentTotal = CommunityChest.getTotal();
 				CommunityChest.setTotal(currentTotal - 10);
-				console.log("Current total: " + CommunityChest.getTotal());
+				console.log("Current total: " + CommunityChest.getTotal());*/
 				break;
 			case CellTypes.Shuttle:
 				openShuttleAlert();
@@ -309,6 +311,13 @@ const Game = () => {
 		setIsShuttling(false);
 	};
 
+	const setCommunityChest = (subVal) => {
+		communityChestTotal.current -= subVal
+		let newSquares = squares
+		newSquares[newSquares.length - 1].money = communityChestTotal.current
+		setSquares([...newSquares])
+	}
+
 	return (
 		<Box>
 			<TradeDialog
@@ -341,6 +350,8 @@ const Game = () => {
 				</Box>
 				<Box sx={{ flexShrink: 1 }}>
 					<Controls
+						currentTotal={communityChestTotal.current}
+						setCommunityChest={setCommunityChest}
 						players={players}
 						curPlayerTurn={curPlayerTurn}
 						squares={squares}
