@@ -136,18 +136,16 @@ const PropertySelection = (props) => {
 						variant="outlined"
 						size="small"
 						disabled={true}
-						aria-label="move selected right"
 					>
-						&gt;
+						<strong>&gt;</strong>
 					</Button>
 					<Button
 						sx={{ my: 0.5 }}
 						variant="outlined"
 						size="small"
 						disabled={true}
-						aria-label="move selected left"
 					>
-						&lt;
+						<strong>&lt;</strong>
 					</Button>
 				</Grid>
 			</Grid>
