@@ -157,13 +157,12 @@ const Game = () => {
         //let numToMove = rollDie();
         console.log(numToMove);
         let newPlayers = players;
-		console.log(curPlayerTurn.current)
         const curPlayerLocation =
             newPlayers[curPlayerTurn.current - 1].location;
         let newPlayerLocation = curPlayerLocation;
 
-        if (curPlayerLocation + numToMove >= squares.length-1) {
-            newPlayerLocation = curPlayerLocation + numToMove - squares.length-1;
+        if (curPlayerLocation + numToMove >= squares.length-2) {
+            newPlayerLocation = curPlayerLocation + numToMove - squares.length-2;
         } else {
             newPlayerLocation += numToMove;
         }
@@ -356,7 +355,7 @@ const Game = () => {
     const setCommunityChest = (subVal) => {
         communityChestTotal.current -= subVal;
         let newSquares = squares;
-        newSquares[newSquares.length - 1].money = communityChestTotal.current;
+        newSquares[newSquares.length - 2].money = communityChestTotal.current;
         setSquares([...newSquares]);
     };
     const setMove = (move) => {
@@ -466,7 +465,7 @@ const Game = () => {
                         <IconButton
                             color="inherit"
                             size="small"
-                            onClick={() => setChanceAlert(false)}
+                            onClick={() => setDrawAlert(false)}
                         >
                             <CloseIcon fontSize="inherit"/>
                         </IconButton>

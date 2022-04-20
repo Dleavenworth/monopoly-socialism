@@ -12,7 +12,7 @@ const Controls = (props) => {
 		let movementDie = Math.floor(Math.random() * 6) + 1;
 		console.log("Movement: " + movementDie);
 		let actionDie = Math.floor(Math.random() * 6) + 1;
-
+		console.log("Action: " + actionDie);
 		//Doubles movement, Draw chance card, draw two chance cards
 		//Other numbers are 2 3 and 4
 
@@ -36,7 +36,6 @@ const Controls = (props) => {
 				//currentTotal = CommunityChest.getTotal();
 				CommunityChest.setTotal(currentTotal);
 				props.setDrawAlert(true);
-				props.setDrawAlert(false);
 				console.log("Current total: " + CommunityChest.getTotal()); 
 				break;
 			case 6:
@@ -46,7 +45,6 @@ const Controls = (props) => {
 				//currentTotal = CommunityChest.getTotal();
 				CommunityChest.setTotal(currentTotal);
 				props.setDrawAlert(true);
-				props.setDrawAlert(false);
 				console.log("Current total: " + CommunityChest.getTotal());
 				break;
 			default:
