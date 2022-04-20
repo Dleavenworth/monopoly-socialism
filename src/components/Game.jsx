@@ -12,11 +12,14 @@ import { Close as CloseIcon } from "@mui/icons-material";
 
 const Game = () => {
     const gridSize = 9;
+	const numPlayers = 2;
+
+
     const [players, setPlayers] = useState([
-        { num: 1, location: 0, properties: [], color: "red", money: 0 },
-        { num: 2, location: 0, properties: [], color: "blue", money: 100 },
-        { num: 3, location: 0, properties: [], color: "green", money: 100 },
-        { num: 4, location: 0, properties: [], color: "orange", money: 100 },
+        { num: 1, location: 0, properties: [], color: "red", money: 100 },
+        { num: 2, location: 0, properties: [], color: "blue", money: 100 }
+        //{ num: 3, location: 0, properties: [], color: "green", money: 100 },
+        //{ num: 4, location: 0, properties: [], color: "orange", money: 100 },
     ]);
     let curPlayerTurn = useRef(1);
     let playerGettingProperty = useRef(undefined);
@@ -111,7 +114,7 @@ const Game = () => {
         if (newPlayers[playerGettingProperty.current - 1].money < 50) {
             console.log("Not enough money for new property");
             setErrorAlert(true);
-            return;
+            return -1;
         }
 
         newPlayers[playerGettingProperty.current - 1].properties.push(
@@ -143,12 +146,13 @@ const Game = () => {
         //let numToMove = rollDie();
         console.log(numToMove);
         let newPlayers = players;
+		console.log(curPlayerTurn.current)
         const curPlayerLocation =
             newPlayers[curPlayerTurn.current - 1].location;
         let newPlayerLocation = curPlayerLocation;
 
-        if (curPlayerLocation + numToMove >= squares.length) {
-            newPlayerLocation = curPlayerLocation + numToMove - squares.length;
+        if (curPlayerLocation + numToMove >= squares.length-1) {
+            newPlayerLocation = curPlayerLocation + numToMove - squares.length-1;
         } else {
             newPlayerLocation += numToMove;
         }
@@ -205,11 +209,13 @@ const Game = () => {
                 throw new Error("Invalid cell type");
         }
 
-        if (curPlayerTurn.current >= 4) {
+        if (curPlayerTurn.current >= numPlayers) {
             curPlayerTurn.current = 1;
         } else {
             curPlayerTurn.current++;
         }
+
+		console.log("Current player turn is: " + curPlayerTurn.current)
     };
 
     const handleTrade = (
@@ -306,7 +312,16 @@ const Game = () => {
             return -1;
         }
 
-        curPlayerTurn.current--;
+		console.log("Pre adjust: " + curPlayerTurn.current)
+
+		
+        if (curPlayerTurn.current === 1) {
+            //curPlayerTurn.current = 1;
+			curPlayerTurn.current = numPlayers;
+        } else {
+            curPlayerTurn.current--;
+        }
+        //curPlayerTurn.current--;
 
         if (newPlayers[curPlayerTurn.current - 1].money < 50) {
             console.log("Not enough money for shuttle");
@@ -314,6 +329,7 @@ const Game = () => {
             return -1;
         }
 
+		console.log("After adjust: " + curPlayerTurn.current)
         newPlayers[curPlayerTurn.current - 1].money -= 50;
 
         setPlayers(newPlayers);
