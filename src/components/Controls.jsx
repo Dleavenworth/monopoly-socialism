@@ -52,6 +52,7 @@ const Controls = (props) => {
 			default:
 				throw new Error("Action die result was not between 1 and 6");
 		}
+		props.setMove(movementDie);
 		return movementDie;
 	};
 

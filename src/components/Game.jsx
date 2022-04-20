@@ -358,9 +358,14 @@ const Game = () => {
         newSquares[newSquares.length - 1].money = communityChestTotal.current;
         setSquares([...newSquares]);
     };
+    const setMove = (move) => {
+        let newSquares = squares;
+        newSquares[newSquares.length - 1].move = move;
+        setSquares([...newSquares]);
+    };
     const setDrawChanceAlert = (action) => {
         setDrawAlert(action);
-    }
+    };
     return (
         <Box>
             <TradeDialog
@@ -409,6 +414,7 @@ const Game = () => {
                         openShuttleAlert={openShuttleAlert}
                         movePlayer={movePlayer}
                         setDrawAlert={setDrawChanceAlert}
+                        setMove={setMove}
                     />
                 </Box>
             </Box>
