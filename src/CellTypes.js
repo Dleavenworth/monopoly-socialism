@@ -9,6 +9,7 @@ export default class CellTypes {
 	static Shuttle = new CellTypes("Shuttle");
 	static Parking = new CellTypes("Parking");
 	static Chest = new CellTypes("CommunintyChest");
+	static statis = new CellTypes("Player status");
 
 	constructor(type) {
 		this.type = type;

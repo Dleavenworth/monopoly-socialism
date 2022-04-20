@@ -87,6 +87,12 @@ const Cell = forwardRef((props, ref) => {
 						<Typography>Free Parking</Typography>
 					</>
 				) : null}
+				{props.type === CellTypes.statis ? (
+					<>
+						<Typography>Player: </Typography>
+						<Typography>Dice roll: {props.move}</Typography>
+					</>
+				) : null}
 			</Box>
 		</Box>
 	);

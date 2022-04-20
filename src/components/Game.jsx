@@ -28,6 +28,8 @@ const Game = () => {
     const [reset, setReset] = useState(false);
     const [isShuttling, setIsShuttling] = useState(false);
     const [errorAlert, setErrorAlert] = useState(false);
+    const [chanceAlert, setChanceAlert] = useState(false);
+    const [drawChanceAlert, setDrawAlert] = useState(false);
     let communityChestTotal = useRef(CommunityChest.getTotal());
 
     const makeBoard = () => {
@@ -92,6 +94,15 @@ const Game = () => {
             money: CommunityChest.getTotal(),
         };
         newSquares.push(center);
+        const statis = {
+            col: 6,
+            row: 7,
+            type: CellTypes.statis,
+            owner: undefined,
+            description: "something",
+            move: 0,
+        };
+        newSquares.push(statis);
         return newSquares;
     };
 
@@ -194,6 +205,7 @@ const Game = () => {
             case CellTypes.Chance:
                 console.log("At chance");
                 setCommunityChest(10);
+                setChanceAlert(true);
                 /*const currentTotal = CommunityChest.getTotal();
 				CommunityChest.setTotal(currentTotal - 10);
 				console.log("Current total: " + CommunityChest.getTotal());*/
@@ -346,7 +358,9 @@ const Game = () => {
         newSquares[newSquares.length - 1].money = communityChestTotal.current;
         setSquares([...newSquares]);
     };
-
+    const setDrawChanceAlert = (action) => {
+        setDrawAlert(action);
+    }
     return (
         <Box>
             <TradeDialog
@@ -394,6 +408,7 @@ const Game = () => {
                         signalMoving={signalMoving}
                         openShuttleAlert={openShuttleAlert}
                         movePlayer={movePlayer}
+                        setDrawAlert={setDrawChanceAlert}
                     />
                 </Box>
             </Box>
@@ -412,6 +427,40 @@ const Game = () => {
                     }
                 >
                     Not enough money!
+                </Alert>
+            </Collapse>
+            <Collapse in={chanceAlert}>
+                <Alert
+                    sx={{ width: "15vw"}}
+                    severity="error"
+                    action={
+                        <IconButton
+                            color="inherit"
+                            size="small"
+                            onClick={() => setChanceAlert(false)}
+                        >
+                            <CloseIcon fontSize="inherit"/>
+                        </IconButton>
+                    }
+                >
+                    You landed on Chance, so money will be taken from the community chest.
+                </Alert>
+            </Collapse>
+            <Collapse in={drawChanceAlert}>
+                <Alert
+                    sx={{ width: "15vw"}}
+                    severity="error"
+                    action={
+                        <IconButton
+                            color="inherit"
+                            size="small"
+                            onClick={() => setChanceAlert(false)}
+                        >
+                            <CloseIcon fontSize="inherit"/>
+                        </IconButton>
+                    }
+                >
+                    You rolled Chance, so money will be ttaken from the community chest.
                 </Alert>
             </Collapse>
         </Box>
