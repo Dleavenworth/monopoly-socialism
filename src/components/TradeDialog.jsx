@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-	Box,
-	Button,
-	Dialog,
-	DialogContent,
-	FormControl,
-	InputLabel,
-	MenuItem,
-	Select,
-	AppBar,
-	Toolbar,
-	IconButton,
-	Typography,
-	Grid,
+    Box,
+    Button,
+    Dialog,
+    DialogContent,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    AppBar,
+    Toolbar,
+    IconButton,
+    Typography,
+    Grid,
 } from "@mui/material";
 import ItemSelection from "./TradeDialogSubcomponents/ItemSelection";
 import PropertySelection from "./TradeDialogSubcomponents/PropertySelection";
@@ -30,143 +30,157 @@ import { v4 as uuidv4 } from "uuid";
 
 // The issue with the results of trades not being shown is because props.players does not get updated to the version created by handleTrade()
 const TradeDialog = (props) => {
-	let open = useRef(props.open);
-	const [selectedPlayer, setSelectedPlayer] = useState("");
-	const [selectedItems, setSelectedItems] = useState([]);
-	const [selectedPlayerProjects, setSelectedPlayerProjects] = useState([]);
-	const [propertiesSold, setPropertiesSold] = useState();
-	const [propertiesBought, setPropertiesBought] = useState();
+    let open = useRef(props.open);
+    const [selectedPlayer, setSelectedPlayer] = useState("");
+    const [selectedItems, setSelectedItems] = useState([]);
+    const [selectedPlayerProjects, setSelectedPlayerProjects] = useState([]);
+    const [propertiesSold, setPropertiesSold] = useState();
+    const [propertiesBought, setPropertiesBought] = useState();
 
-	useEffect(() => {
-		triggerReset();
-	}, [props.reset]);
+    useEffect(() => {
+        triggerReset();
+    }, [props.reset]);
 
-	useEffect(() => {
-		console.log("players were changed");
-		console.log(props.players);
-	}, [props.players]);
+    useEffect(() => {
+        console.log("players were changed");
+        console.log(props.players);
+    }, [props.players]);
 
-	const triggerReset = () => {
-		setSelectedPlayer("");
-		setSelectedItems([]);
-	};
+    const triggerReset = () => {
+        setSelectedPlayer("");
+        setSelectedItems([]);
+    };
 
-	const handleClose = () => {
-		open.current = false;
-		props.closeDialog();
-	};
+    const handleClose = () => {
+        open.current = false;
+        props.closeDialog();
+    };
 
-	const handleSelectedPlayer = (e) => {
-		let selectedPlayerNum = e.target.value;
-		console.log(props.players[selectedPlayerNum - 1].properties);
-		setSelectedPlayer(selectedPlayerNum);
-		//selectedPlayerProjects = [...props.players[selectedPlayerNum - 1].properties]
-		setSelectedPlayerProjects([
-			...props.players[selectedPlayerNum - 1].properties,
-		]);
-	};
+    const handleSelectedPlayer = (e) => {
+        let selectedPlayerNum = e.target.value;
+        console.log(props.players[selectedPlayerNum - 1].properties);
+        setSelectedPlayer(selectedPlayerNum);
+        //selectedPlayerProjects = [...props.players[selectedPlayerNum - 1].properties]
+        setSelectedPlayerProjects([
+            ...props.players[selectedPlayerNum - 1].properties,
+        ]);
+    };
 
-	const changeSelectedItems = (newItems) => {
-		setSelectedItems(newItems);
-	};
+    const changeSelectedItems = (newItems) => {
+        setSelectedItems(newItems);
+    };
 
-	const handleBoughtProperties = (newProperties) => {
-		setPropertiesBought(newProperties);
-	};
+    const handleBoughtProperties = (newProperties) => {
+        setPropertiesBought(newProperties);
+    };
 
-	const handleSoldProperties = (newProperties) => {
-		setPropertiesSold(newProperties);
-	};
+    const handleSoldProperties = (newProperties) => {
+        setPropertiesSold(newProperties);
+    };
 
-	const submitTrade = () => {
-		props.handleTrade(
-			propertiesBought,
-			propertiesSold,
-			props.playerStarting,
-			selectedPlayer
-		);
-		setSelectedPlayer("");
-		//setSelectedPlayerProjects([])
-		triggerReset();
-		handleClose();
-	};
+    const submitTrade = () => {
+        props.handleTrade(
+            propertiesBought,
+            propertiesSold,
+            props.playerStarting,
+            selectedPlayer
+        );
+        setSelectedPlayer("");
+        //setSelectedPlayerProjects([])
+        triggerReset();
+        handleClose();
+    };
 
-	return (
-		<Dialog open={props.open} onClose={handleClose} fullScreen>
-			<AppBar position="relative">
-				<Toolbar>
-					<IconButton
-						size="large"
-						edge="start"
-						color="inherit"
-						sx={{ mr: 2 }}
-					></IconButton>
-					<Typography variant="h6" component="div" sx={{ ml: 2, flex: 1 }}>
-						Trade
-					</Typography>
-					<Button onClick={handleClose} color="inherit">
-						Cancel
-					</Button>
-					<Button onClick={submitTrade} color="inherit">
-						Submit
-					</Button>
-				</Toolbar>
-			</AppBar>
-			<DialogContent sx={{ justifyContent: "center", alignItems: "center" }}>
-				<Grid
-					container
-					spacing={2}
-					direction="column"
-					alignItems="center"
-					justifyContent="center"
-				>
-					<Grid item>
-						<Box noValidate component="form">
-							<FormControl>
-								<InputLabel>Player to trade with</InputLabel>
-								<Select
-									value={selectedPlayer}
-									label="Player to trade with"
-									onChange={handleSelectedPlayer}
-									sx={{ minWidth: 200 }}
-								>
-									{props.players.map((curPlayer, i) => {
-										let key = uuidv4();
-										return curPlayer.num ===
-											props.playerStarting.current ? null : (
-											<MenuItem key={key} value={curPlayer.num}>
-												Player {curPlayer.num}
-											</MenuItem>
-										);
-									})}
-								</Select>
-							</FormControl>
-						</Box>
-					</Grid>
-					<Grid item>
-						{Number.isFinite(selectedPlayer) ? (
-							<ItemSelection
-								selectedItems={selectedItems}
-								changeSelectedItems={changeSelectedItems}
-							/>
-						) : null}
-					</Grid>
-					<Grid>
-						{selectedItems[0] ? (
-							<PropertySelection
-								handleBoughtProperties={handleBoughtProperties}
-								handleSoldProperties={handleSoldProperties}
-								curPlayerProjects={[
-									...props.players[props.playerStarting.current - 1].properties,
-								]}
-								selectedPlayerProjects={selectedPlayerProjects}
-							/>
-						) : null}
-					</Grid>
-				</Grid>
-			</DialogContent>
-		</Dialog>
-	);
+    return (
+        <Dialog open={props.open} onClose={handleClose} fullScreen>
+            <AppBar position="relative">
+                <Toolbar>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        sx={{ mr: 2 }}
+                    ></IconButton>
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{ ml: 2, flex: 1 }}
+                    >
+                        Trade
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <DialogContent
+                sx={{ justifyContent: "center", alignItems: "center" }}
+            >
+                <Grid
+                    container
+                    spacing={2}
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="center"
+                >
+                    <Grid item>
+                        <Box noValidate component="form">
+                            <FormControl>
+                                <InputLabel>Player to trade with</InputLabel>
+                                <Select
+                                    value={selectedPlayer}
+                                    label="Player to trade with"
+                                    onChange={handleSelectedPlayer}
+                                    sx={{ minWidth: 200 }}
+                                >
+                                    {props.players.map((curPlayer, i) => {
+                                        let key = uuidv4();
+                                        return curPlayer.num ===
+                                            props.playerStarting
+                                                .current ? null : (
+                                            <MenuItem
+                                                key={key}
+                                                value={curPlayer.num}
+                                            >
+                                                Player {curPlayer.num}
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Grid>
+                    <Grid item>
+                        {Number.isFinite(selectedPlayer) ? (
+                            <ItemSelection
+                                selectedItems={selectedItems}
+                                changeSelectedItems={changeSelectedItems}
+                            />
+                        ) : null}
+                    </Grid>
+                    <Grid item>
+                        {selectedItems[0] ? (
+                            <PropertySelection
+                                handleBoughtProperties={handleBoughtProperties}
+                                handleSoldProperties={handleSoldProperties}
+                                curPlayerProjects={[
+                                    ...props.players[
+                                        props.playerStarting.current - 1
+                                    ].properties,
+                                ]}
+                                selectedPlayerProjects={selectedPlayerProjects}
+                            />
+                        ) : null}
+                    </Grid>
+                    <Grid item>
+                        <Button variant="contained" onClick={handleClose} sx={{m: 2}}>
+                            Cancel
+                        </Button>
+                        <Button variant="contained" onClick={submitTrade} sx={{m: 2}}>
+                            Submit
+                        </Button>
+                    </Grid>
+                </Grid>
+            </DialogContent>
+        </Dialog>
+    );
 };
 
 export default TradeDialog;
