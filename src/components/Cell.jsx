@@ -89,7 +89,7 @@ const Cell = forwardRef((props, ref) => {
 				) : null}
 				{props.type === CellTypes.statis ? (
 					<>
-						<Typography>Player: </Typography>
+						<Typography>Player: {props.curr}</Typography>
 						<Typography>Dice roll: {props.move}</Typography>
 					</>
 				) : null}

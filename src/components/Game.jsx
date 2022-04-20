@@ -177,6 +177,7 @@ const Game = () => {
         }
 
         handleMove();
+        setCurrPlayer(curPlayerTurn);
         //signalMoving();
     };
 
@@ -363,6 +364,11 @@ const Game = () => {
         newSquares[newSquares.length - 1].move = move;
         setSquares([...newSquares]);
     };
+    const setCurrPlayer = (curPlayer) => {
+        let newSquares = squares;
+        newSquares[newSquares.length -1].curr = curPlayer.current;
+        setSquares([...newSquares]);
+    }
     const setDrawChanceAlert = (action) => {
         setDrawAlert(action);
     };

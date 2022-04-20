@@ -23,6 +23,7 @@ const Board = (props) => {
 					name={curSquare.description.projectName}
 					money={curSquare.money}
 					move={curSquare.move}
+					curr={curSquare.curr}
 				/>
 			);
 		});
