@@ -29,10 +29,10 @@ const PropertyAlert = (props) => {
 
 	return (
 		<GeneralAlert content={props.content} title={props.title} open={props.open}>
-			<Button autoFocus onClick={() => handleClose(false)}>
+			<Button color="error" autoFocus onClick={() => handleClose(false)}>
 				No
 			</Button>
-			<Button onClick={() => handleClose(true)}>Yes</Button>
+			<Button color="success" onClick={() => handleClose(true)}>Yes</Button>
 		</GeneralAlert>
 	);
 };

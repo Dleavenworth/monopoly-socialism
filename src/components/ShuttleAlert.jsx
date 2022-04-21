@@ -43,10 +43,10 @@ const ShuttleAlert = (props) => {
 
     return (
         <GeneralAlert title={props.title} content={content} open={props.open}>
-            <Button onClick={() => handleClose(false)}>
+            <Button color="error" onClick={() => handleClose(false)}>
                 Do not use shuttle
             </Button>
-            <Button onClick={() => handleClose(true)}>Move with shuttle</Button>
+            <Button color="success" onClick={() => handleClose(true)}>Move with shuttle</Button>
         </GeneralAlert>
     );
 };

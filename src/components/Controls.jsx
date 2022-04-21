@@ -77,10 +77,10 @@ const Controls = (props) => {
 						button
 						onClick={() => props.movePlayer(rollDie())}
 					>
-						Move
+						MOVE
 					</ListItem>
 					<ListItem key="trade" button onClick={startTrade}>
-						Trade
+						TRADE
 					</ListItem>
 				</List>
 			</Box>

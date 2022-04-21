@@ -101,6 +101,7 @@ const Game = () => {
             owner: undefined,
             description: "something",
             move: 0,
+            curr: players[0].color
         };
         newSquares.push(statis);
         return newSquares;
@@ -365,7 +366,8 @@ const Game = () => {
     };
     const setCurrPlayer = (curPlayer) => {
         let newSquares = squares;
-        newSquares[newSquares.length -1].curr = curPlayer.current;
+        console.log(curPlayer.current)
+        newSquares[newSquares.length -1].curr = players[curPlayer.current-1].color;
         setSquares([...newSquares]);
     }
     const setDrawChanceAlert = (action) => {
@@ -443,7 +445,7 @@ const Game = () => {
             <Collapse in={chanceAlert}>
                 <Alert
                     sx={{ width: "15vw"}}
-                    severity="error"
+                    severity="info"
                     action={
                         <IconButton
                             color="inherit"
@@ -460,7 +462,7 @@ const Game = () => {
             <Collapse in={drawChanceAlert}>
                 <Alert
                     sx={{ width: "15vw"}}
-                    severity="error"
+                    severity="info"
                     action={
                         <IconButton
                             color="inherit"

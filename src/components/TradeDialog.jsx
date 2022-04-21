@@ -170,10 +170,10 @@ const TradeDialog = (props) => {
                         ) : null}
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" onClick={handleClose} sx={{m: 2}}>
+                        <Button color="error" variant="contained" onClick={handleClose} sx={{m: 2}}>
                             Cancel
                         </Button>
-                        <Button variant="contained" onClick={submitTrade} sx={{m: 2}}>
+                        <Button color="success" variant="contained" onClick={submitTrade} sx={{m: 2}}>
                             Submit
                         </Button>
                     </Grid>
