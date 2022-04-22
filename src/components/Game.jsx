@@ -162,8 +162,12 @@ const Game = () => {
             newPlayers[curPlayerTurn.current - 1].location;
         let newPlayerLocation = curPlayerLocation;
 
-        if (curPlayerLocation + numToMove >= squares.length-2) {
-            newPlayerLocation = curPlayerLocation + numToMove - squares.length-2;
+        if (curPlayerLocation + numToMove >= squares.length-3) {
+            newPlayerLocation = curPlayerLocation + numToMove - (squares.length-3);
+            console.log(numToMove)
+            console.log(curPlayerLocation)
+            console.log(newPlayerLocation)
+            console.log(squares[newPlayerLocation])
         } else {
             newPlayerLocation += numToMove;
         }
@@ -392,7 +396,7 @@ const Game = () => {
                 content="Do you want to develop this project?"
             />
             <ShuttleAlert
-                max={squares.length}
+                max={squares.length-2}
                 title="Community shuttle"
                 content="Use the slider to indicate how many spaces you wish to move"
                 open={isShuttling}
