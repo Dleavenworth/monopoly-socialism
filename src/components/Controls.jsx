@@ -1,10 +1,11 @@
 import React from "react";
-import { List, ListItem, Drawer, Toolbar, Box } from "@mui/material";
+import { ListItemText, ListItemIcon, List, ListItem, Drawer, Toolbar, Box } from "@mui/material";
 import CellTypes from "../CellTypes";
 import CommunityChest from "../CommunityChest";
+import { Casino, CurrencyExchange } from '@mui/icons-material';
 
 const Controls = (props) => {
-	const drawerWidth = "10vw";
+	const drawerWidth = "16vw";
 
 	let currentTotal = props.currentTotal;
 
@@ -63,9 +64,9 @@ const Controls = (props) => {
 		<Drawer
 			variant="permanent"
 			anchor="right"
+			PaperProps={{elevation: 24}}
 			sx={{
 				width: drawerWidth,
-
 				"& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box" },
 			}}
 		>
@@ -77,10 +78,12 @@ const Controls = (props) => {
 						button
 						onClick={() => props.movePlayer(rollDie())}
 					>
-						MOVE
+						<ListItemIcon><Casino/></ListItemIcon>
+						 <ListItemText primary="ROLL DIE"/>
 					</ListItem>
 					<ListItem key="trade" button onClick={startTrade}>
-						TRADE
+						<ListItemIcon><CurrencyExchange/></ListItemIcon>
+						<ListItemText primary="START TRADE"/>
 					</ListItem>
 				</List>
 			</Box>

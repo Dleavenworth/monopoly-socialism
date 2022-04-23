@@ -13,6 +13,7 @@ import { Close as CloseIcon } from "@mui/icons-material";
 const Game = () => {
     const gridSize = 9;
 	const numPlayers = 2;
+    const notMovableSquares = 2;
 
 
     const [players, setPlayers] = useState([
@@ -94,16 +95,16 @@ const Game = () => {
             money: CommunityChest.getTotal(),
         };
         newSquares.push(center);
-        const statis = {
+        const status = {
             col: 6,
             row: 7,
-            type: CellTypes.statis,
+            type: CellTypes.Status,
             owner: undefined,
             description: "something",
             move: 0,
             curr: players[0].color
         };
-        newSquares.push(statis);
+        newSquares.push(status);
         return newSquares;
     };
 
@@ -155,15 +156,19 @@ const Game = () => {
     };
 
     const movePlayer = (numToMove) => {
-        //let numToMove = rollDie();
+
+        setChanceAlert(false);
+        setDrawAlert(false);
+        setErrorAlert(false);
+        
         console.log(numToMove);
         let newPlayers = players;
         const curPlayerLocation =
             newPlayers[curPlayerTurn.current - 1].location;
         let newPlayerLocation = curPlayerLocation;
 
-        if (curPlayerLocation + numToMove >= squares.length-3) {
-            newPlayerLocation = curPlayerLocation + numToMove - (squares.length-3);
+        if (curPlayerLocation + numToMove >= squares.length-(1+notMovableSquares)) {
+            newPlayerLocation = curPlayerLocation + numToMove - (squares.length-(1+notMovableSquares));
             console.log(numToMove)
             console.log(curPlayerLocation)
             console.log(newPlayerLocation)
@@ -433,6 +438,7 @@ const Game = () => {
                 <Alert
                     sx={{ width: "15vw" }}
                     severity="error"
+                    variant="filled"
                     action={
                         <IconButton
                             color="inherit"
@@ -450,6 +456,7 @@ const Game = () => {
                 <Alert
                     sx={{ width: "15vw"}}
                     severity="info"
+                    variant="filled"
                     action={
                         <IconButton
                             color="inherit"
@@ -467,6 +474,7 @@ const Game = () => {
                 <Alert
                     sx={{ width: "15vw"}}
                     severity="info"
+                    variant="filled"
                     action={
                         <IconButton
                             color="inherit"
@@ -477,7 +485,7 @@ const Game = () => {
                         </IconButton>
                     }
                 >
-                    You rolled Chance, so money will be ttaken from the community chest.
+                    You rolled Chance, so money will be taken from the community chest.
                 </Alert>
             </Collapse>
         </Box>

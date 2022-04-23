@@ -2,6 +2,9 @@ import React, { Fragment, forwardRef } from "react";
 import { Box, Typography } from "@mui/material";
 import CellTypes from "../CellTypes";
 
+const CellText = (props) => <Typography sx={{fontSize: "13px"}}>{props.children}</Typography>
+
+
 const Cell = forwardRef((props, ref) => {
 	console.log(props.description);
 	return (
@@ -9,8 +12,8 @@ const Cell = forwardRef((props, ref) => {
 			ref={ref}
 			sx={{
 				border: "1px solid black",
-				width: "10vw",
-				height: "10vh",
+				width: "9vw",
+				height: "9vh",
 				//backgroundColor: props.corner ? "black" : "white",
 				display: "flex",
 				flexDirection: "column",
@@ -46,51 +49,64 @@ const Cell = forwardRef((props, ref) => {
 			<Box sx={{ bottom: 0 }}>
 				{props.type === CellTypes.Property ? (
 					<>
-						<Typography>Owner: {props.owner}</Typography>
-						<Typography>Name: {props.name}</Typography>
+						<CellText>Owner: {props.owner}</CellText>
+						<CellText>Owner: {props.name}</CellText>
+						{/*<Typography>Owner: {props.owner}</Typography>
+						<Typography>Name: {props.name}</Typography>*/}
 					</>
 				) : null}
 				{props.type === CellTypes.Chest ? (
 					<>
-						<Typography>Communinty Chest</Typography>
-						<Typography>Money: ${props.money}</Typography>
+						<CellText>Community chest</CellText>
+						<CellText>Money: ${props.money}</CellText>
+						{/*<Typography>Community Chest</Typography>
+						<Typography>Money: ${props.money}</Typography>*/}
 					</>
 				) : null}
 				{props.type === CellTypes.Chance ? (
 					<>
-						<Typography>Chance</Typography>
+						<CellText>Chance</CellText>
+						{/*<Typography>Chance</Typography>*/}
 					</>
 	 			) : null}
 				{props.type === CellTypes.Shuttle ? (
 					<>
-						<Typography>Commmunity Shuttle</Typography>
-						<Typography>$50</Typography>
+						<CellText>Community Shuttle</CellText>
+						<CellText>$50</CellText>
+						{/*<Typography>Community Shuttle</Typography>
+						<Typography>$50</Typography>*/}
 					</>
 				) : null}
 				{props.type === CellTypes.Jail ? (
 					<>
-						<Typography>Jail</Typography>
+						<CellText>Jail</CellText>
+						{/*<Typography>Jail</Typography>*/}
 					</>
 				) : null}
 				{props.type === CellTypes.Go ? (
 					<>
-						<Typography>Go</Typography>
+						<CellText>Go</CellText>
+						{/*<Typography>Go</Typography>*/}
 					</>
 				) : null}
 				{props.type === CellTypes.GoToJail ? (
 					<>
-						<Typography>Go To Jail</Typography>
+						<CellText>Go To Jail</CellText>
+						{/*<Typography>Go To Jail</Typography>*/}
 					</>
 				) : null}
 				{props.type === CellTypes.Parking ? (
 					<>
-						<Typography>Free Parking</Typography>
+						<CellText>Free Parking</CellText>
+						{/*<Typography>Free Parking</Typography>*/}
 					</>
 				) : null}
-				{props.type === CellTypes.statis ? (
+				{props.type === CellTypes.Status ? (
 					<>
-						<Typography>Player: {props.curr}</Typography>
-						<Typography>Dice roll: {props.move}</Typography>
+						<CellText>Player: {props.curr}</CellText>
+						<CellText>Dice roll: {props.move}</CellText>
+						{/*<Typography>Player: {props.curr}</Typography>
+						<Typography>Dice roll: {props.move}</Typography>*/}
 					</>
 				) : null}
 			</Box>

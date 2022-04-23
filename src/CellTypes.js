@@ -8,8 +8,8 @@ export default class CellTypes {
 	static Chance = new CellTypes("Chance");
 	static Shuttle = new CellTypes("Shuttle");
 	static Parking = new CellTypes("Parking");
-	static Chest = new CellTypes("CommunintyChest");
-	static statis = new CellTypes("Player status");
+	static Chest = new CellTypes("CommunityChest");
+	static Status = new CellTypes("Player status");
 
 	constructor(type) {
 		this.type = type;
