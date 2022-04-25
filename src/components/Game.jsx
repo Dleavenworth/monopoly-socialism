@@ -406,19 +406,19 @@ const Game = () => {
 
     const setError = (val) => {
         setErrorAlert(val);
-    }
+    };
 
     const setChance = (val) => {
-        setChanceAlert(val)
-    }
+        setChanceAlert(val);
+    };
 
     const setGo = (val) => {
-        setGoAlert(val)
-    }
+        setGoAlert(val);
+    };
 
     const setDraw = (val) => {
-        setDrawAlert(val)
-    }
+        setDrawAlert(val);
+    };
 
     return (
         <Box>

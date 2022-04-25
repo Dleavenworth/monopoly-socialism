@@ -48,8 +48,8 @@ const Cell = forwardRef((props, ref) => {
 			<Box sx={{ bottom: 0 }}>
 				{props.type === CellTypes.Property ? (
 					<>
-						<CellText>Owner: {props.owner}</CellText>
-						<CellText>Owner: {props.name}</CellText>
+						<CellText>Owner: {props.owner ? props.owner : "No owner"}</CellText>
+						<CellText>{props.name}</CellText>
 						{/*<Typography>Owner: {props.owner}</Typography>
 						<Typography>Name: {props.name}</Typography>*/}
 					</>
