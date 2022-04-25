@@ -17,8 +17,8 @@ const Game = () => {
     const notMovableSquares = 2;
 
     const [players, setPlayers] = useState([
-        { num: 1, location: 0, properties: [], color: "red", money: 100 },
-        { num: 2, location: 0, properties: [], color: "blue", money: 100 },
+        { num: 1, location: 0, properties: [], color: "Red", money: 100 },
+        { num: 2, location: 0, properties: [], color: "Blue", money: 100 },
         //{ num: 3, location: 0, properties: [], color: "green", money: 100 },
         //{ num: 4, location: 0, properties: [], color: "orange", money: 100 },
     ]);

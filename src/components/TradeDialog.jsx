@@ -139,7 +139,7 @@ const TradeDialog = (props) => {
                                                 key={key}
                                                 value={curPlayer.num}
                                             >
-                                                Player {curPlayer.num}
+                                                {curPlayer.color} player
                                             </MenuItem>
                                         );
                                     })}
