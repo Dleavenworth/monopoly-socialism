@@ -4,21 +4,21 @@ import Board from "./Board";
 import { Alert, Box, IconButton, Collapse } from "@mui/material";
 import CellTypes from "../CellTypes";
 import CommunityChest from "../CommunityChest";
-import PropertyAlert from "./PropertyAlert";
+import PropertyDialog from "./PropertyDialog";
 import ProjectTypes from "../ProjectTypes";
 import TradeDialog from "./TradeDialog";
-import ShuttleAlert from "./ShuttleAlert";
+import ShuttleDialog from "./ShuttleDialog";
 import { Close as CloseIcon } from "@mui/icons-material";
+import GeneralAlert from "./GeneralAlert";
 
 const Game = () => {
     const gridSize = 9;
-	const numPlayers = 2;
+    const numPlayers = 2;
     const notMovableSquares = 2;
-
 
     const [players, setPlayers] = useState([
         { num: 1, location: 0, properties: [], color: "red", money: 100 },
-        { num: 2, location: 0, properties: [], color: "blue", money: 100 }
+        { num: 2, location: 0, properties: [], color: "blue", money: 100 },
         //{ num: 3, location: 0, properties: [], color: "green", money: 100 },
         //{ num: 4, location: 0, properties: [], color: "orange", money: 100 },
     ]);
@@ -32,7 +32,7 @@ const Game = () => {
     const [errorAlert, setErrorAlert] = useState(false);
     const [chanceAlert, setChanceAlert] = useState(false);
     const [drawChanceAlert, setDrawAlert] = useState(false);
-    const [GoAlert, setGoAlert] = useState(false);
+    const [goAlert, setGoAlert] = useState(false);
     let communityChestTotal = useRef(CommunityChest.getTotal());
 
     const makeBoard = () => {
@@ -168,23 +168,28 @@ const Game = () => {
         let newSquares = squares;
         newSquares[newSquares.length - 2].money = communityChestTotal.current;
         setSquares([...newSquares]);
-
     };
     const movePlayer = (numToMove) => {
-
         setChanceAlert(false);
-        setDrawAlert(false);
+        //setDrawAlert(false);
         setErrorAlert(false);
-        
+        setGoAlert(false);
+
         console.log(numToMove);
         let newPlayers = players;
         const curPlayerLocation =
             newPlayers[curPlayerTurn.current - 1].location;
         let newPlayerLocation = curPlayerLocation;
 
-        if (curPlayerLocation + numToMove >= squares.length-(1+notMovableSquares)) {
-            newPlayerLocation = curPlayerLocation + numToMove - (squares.length-(1+notMovableSquares));
-            console.log("Pass Go")
+        if (
+            curPlayerLocation + numToMove >=
+            squares.length - (1 + notMovableSquares)
+        ) {
+            newPlayerLocation =
+                curPlayerLocation +
+                numToMove -
+                (squares.length - (1 + notMovableSquares));
+            console.log("Pass Go");
             handleGo(curPlayerTurn.current);
         } else {
             newPlayerLocation += numToMove;
@@ -251,7 +256,7 @@ const Game = () => {
             curPlayerTurn.current++;
         }
 
-		console.log("Current player turn is: " + curPlayerTurn.current)
+        console.log("Current player turn is: " + curPlayerTurn.current);
     };
 
     const handleTrade = (
@@ -348,12 +353,11 @@ const Game = () => {
             return -1;
         }
 
-		console.log("Pre adjust: " + curPlayerTurn.current)
+        console.log("Pre adjust: " + curPlayerTurn.current);
 
-		
         if (curPlayerTurn.current === 1) {
             //curPlayerTurn.current = 1;
-			curPlayerTurn.current = numPlayers;
+            curPlayerTurn.current = numPlayers;
         } else {
             curPlayerTurn.current--;
         }
@@ -365,7 +369,7 @@ const Game = () => {
             return -1;
         }
 
-		console.log("After adjust: " + curPlayerTurn.current)
+        console.log("After adjust: " + curPlayerTurn.current);
         newPlayers[curPlayerTurn.current - 1].money -= 50;
 
         setPlayers(newPlayers);
@@ -389,14 +393,32 @@ const Game = () => {
     };
     const setCurrPlayer = (curPlayer) => {
         let newSquares = squares;
-        console.log(curPlayer.current)
-        newSquares[newSquares.length -1].curr = players[curPlayer.current-1].color;
-        newSquares[newSquares.length -1].money= players[curPlayer.current-1].money;
+        console.log(curPlayer.current);
+        newSquares[newSquares.length - 1].curr =
+            players[curPlayer.current - 1].color;
+        newSquares[newSquares.length - 1].money =
+            players[curPlayer.current - 1].money;
         setSquares([...newSquares]);
-    }
+    };
     const setDrawChanceAlert = (action) => {
         setDrawAlert(action);
     };
+
+    const setError = (val) => {
+        setErrorAlert(val);
+    }
+
+    const setChance = (val) => {
+        setChanceAlert(val)
+    }
+
+    const setGo = (val) => {
+        setGoAlert(val)
+    }
+
+    const setDraw = (val) => {
+        setDrawAlert(val)
+    }
 
     return (
         <Box>
@@ -409,15 +431,15 @@ const Game = () => {
                 open={isTrading}
                 reset={reset}
             />
-            <PropertyAlert
+            <PropertyDialog
                 open={propertyAlert}
                 handleAccept={handleNewPropertyAccept}
                 handleDecline={handleNewPropertyDecline}
                 title="New Property"
                 content="Do you want to buy this new property?"
             />
-            <ShuttleAlert
-                max={squares.length-2}
+            <ShuttleDialog
+                max={squares.length - 2}
                 title="Community shuttle"
                 content="Use the slider to indicate how many spaces you wish to move"
                 open={isShuttling}
@@ -447,28 +469,64 @@ const Game = () => {
                         movePlayer={movePlayer}
                         setDrawAlert={setDrawChanceAlert}
                         setMove={setMove}
+                        setError={setError}
+                        errorAlert={errorAlert}
+                        setChance={setChance}
+                        chanceAlert={chanceAlert}
+                        setDraw={setDraw}
+                        drawAlert={drawChanceAlert}
+                        setGo={setGo}
+                        goAlert={goAlert}
                     />
                 </Box>
             </Box>
-            <Collapse in={errorAlert}>
+            <GeneralAlert
+                open={errorAlert}
+                severity="error"
+                variant="filled"
+                action={
+                    <IconButton
+                        color="inherit"
+                        size="small"
+                        onClick={() => setErrorAlert(false)}
+                    >
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+            >
+                Not enough money!
+            </GeneralAlert>
+            {/*<Collapse in={errorAlert}>
                 <Alert
                     sx={{ width: "15vw" }}
                     severity="error"
                     variant="filled"
                     action={
-                        <IconButton
-                            color="inherit"
-                            size="small"
-                            onClick={() => setErrorAlert(false)}
-                        >
-                            <CloseIcon fontSize="inherit" />
-                        </IconButton>
+                        
                     }
                 >
                     Not enough money!
                 </Alert>
-            </Collapse>
-            <Collapse in={chanceAlert}>
+                </Collapse>*/}
+            <GeneralAlert
+                open={chanceAlert}
+                severity="info"
+                variant="filled"
+                action={
+                    <IconButton
+                        color="inherit"
+                        size="small"
+                        onClick={() => setChanceAlert(false)}
+                    >
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+            >
+                You landed on Chance, so money will be taken from the community
+                chest.
+            </GeneralAlert>
+
+            {/*<Collapse in={chanceAlert}>
                 <Alert
                     sx={{ width: "15vw"}}
                     severity="info"
@@ -485,8 +543,25 @@ const Game = () => {
                 >
                     You landed on Chance, so money will be taken from the community chest.
                 </Alert>
-            </Collapse>
-            <Collapse in={drawChanceAlert}>
+                </Collapse>*/}
+            <GeneralAlert
+                open={drawChanceAlert}
+                severity="info"
+                variant="filled"
+                action={
+                    <IconButton
+                        color="inherit"
+                        size="small"
+                        onClick={() => setDrawChanceAlert(false)}
+                    >
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+            >
+                You rolled chance, so money will be taken from the community
+                chest
+            </GeneralAlert>
+            {/*<Collapse in={drawChanceAlert}>
                 <Alert
                     sx={{ width: "15vw"}}
                     severity="info"
@@ -503,8 +578,24 @@ const Game = () => {
                 >
                     You rolled Chance, so money will be taken from the community chest.
                 </Alert>
-            </Collapse>
-            <Collapse in={GoAlert}>
+                </Collapse>*/}
+            <GeneralAlert
+                open={goAlert}
+                severity="info"
+                variant="filled"
+                action={
+                    <IconButton
+                        color="inherit"
+                        size="small"
+                        onClick={() => setGoAlert(false)}
+                    >
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+            >
+                A player passed Go. They get $45 and the community chest gets %5
+            </GeneralAlert>
+            {/*<Collapse in={GoAlert}>
                 <Alert
                     sx={{ width: "15vw"}}
                     severity="info"
@@ -521,7 +612,7 @@ const Game = () => {
                 >
                     A player passed GO. They get $45, and the community chest get $5
                 </Alert>
-            </Collapse>
+                </Collapse>*/}
         </Box>
     );
 };

@@ -7,9 +7,9 @@ import {
 	DialogContentText,
 	DialogTitle,
 } from "@mui/material";
-import GeneralAlert from "./GeneralAlert";
+import GeneralDialog from "./GeneralDialog";
 
-const PropertyAlert = (props) => {
+const PropertyDialog = (props) => {
 	const [open, setOpen] = useState(props.open);
 
 	console.log(props);
@@ -28,13 +28,13 @@ const PropertyAlert = (props) => {
 	};
 
 	return (
-		<GeneralAlert content={props.content} title={props.title} open={props.open}>
+		<GeneralDialog content={props.content} title={props.title} open={props.open}>
 			<Button color="error" autoFocus onClick={() => handleClose(false)}>
 				No
 			</Button>
 			<Button color="success" onClick={() => handleClose(true)}>Yes</Button>
-		</GeneralAlert>
+		</GeneralDialog>
 	);
 };
 
-export default PropertyAlert;
+export default PropertyDialog;

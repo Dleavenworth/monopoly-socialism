@@ -1,8 +1,9 @@
 import React from "react";
-import { ListItemText, ListItemIcon, List, ListItem, Drawer, Toolbar, Box } from "@mui/material";
+import { ListItemText, ListItemIcon, List, ListItem, Drawer, Toolbar, Box, IconButton } from "@mui/material";
 import CellTypes from "../CellTypes";
 import CommunityChest from "../CommunityChest";
-import { Casino, CurrencyExchange } from '@mui/icons-material';
+import { Casino, CurrencyExchange, Close as CloseIcon} from '@mui/icons-material';
+import GeneralAlert from "./GeneralAlert"
 
 const Controls = (props) => {
 	const drawerWidth = "16vw";
@@ -85,6 +86,76 @@ const Controls = (props) => {
 						<ListItemIcon><CurrencyExchange/></ListItemIcon>
 						<ListItemText primary="START TRADE"/>
 					</ListItem>
+					
+            <GeneralAlert
+                open={props.errorAlert}
+                severity="error"
+                variant="filled"
+                action={
+                    <IconButton
+                        color="inherit"
+                        size="small"
+                        onClick={() => props.setError(false)}
+                    >
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+            >
+                Not enough money!
+            </GeneralAlert>
+            
+			<GeneralAlert
+                open={props.chanceAlert}
+                severity="info"
+                variant="filled"
+                action={
+                    <IconButton
+                        color="inherit"
+                        size="small"
+                        onClick={() => props.setChance(false)}
+                    >
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+            >
+                You landed on Chance, so money will be taken from the community
+                chest.
+            </GeneralAlert>
+
+            <GeneralAlert
+                open={props.drawAlert}
+                severity="info"
+                variant="filled"
+                action={
+                    <IconButton
+                        color="inherit"
+                        size="small"
+                        onClick={() => props.setDraw(false)}
+                    >
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+            >
+                You rolled chance, so money will be taken from the community
+                chest
+            </GeneralAlert>
+
+            <GeneralAlert
+                open={props.goAlert}
+                severity="info"
+                variant="filled"
+                action={
+                    <IconButton
+                        color="inherit"
+                        size="small"
+                        onClick={() => props.setGo(false)}
+                    >
+                        <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                }
+            >
+                A player passed Go. They get $45 and the community chest gets %5
+            </GeneralAlert>
 				</List>
 			</Box>
 		</Drawer>
