@@ -24,6 +24,7 @@ const Game = () => {
     ]);
     let curPlayerTurn = useRef(1);
     let playerGettingProperty = useRef(undefined);
+    let playerPassGo = useRef(undefined);
     const [propertyAlert, setPropertyAlert] = useState(false);
     const [isTrading, setIsTrading] = useState(false);
     const [reset, setReset] = useState(false);
@@ -31,6 +32,7 @@ const Game = () => {
     const [errorAlert, setErrorAlert] = useState(false);
     const [chanceAlert, setChanceAlert] = useState(false);
     const [drawChanceAlert, setDrawAlert] = useState(false);
+    const [GoAlert, setGoAlert] = useState(false);
     let communityChestTotal = useRef(CommunityChest.getTotal());
 
     const makeBoard = () => {
@@ -102,7 +104,8 @@ const Game = () => {
             owner: undefined,
             description: "something",
             move: 0,
-            curr: players[0].color
+            curr: players[0].color,
+            money: players[0].money,
         };
         newSquares.push(status);
         return newSquares;
@@ -154,7 +157,19 @@ const Game = () => {
     const closeDialog = () => {
         setIsTrading(false);
     };
+    const handleGo = (player) => {
+        let newPlayers = players;
+        setGoAlert(true);
+        playerPassGo.current = player;
+        newPlayers[playerPassGo.current - 1].money += 45;
+        setPlayers([...newPlayers]);
 
+        communityChestTotal.current += 5;
+        let newSquares = squares;
+        newSquares[newSquares.length - 2].money = communityChestTotal.current;
+        setSquares([...newSquares]);
+
+    };
     const movePlayer = (numToMove) => {
 
         setChanceAlert(false);
@@ -169,10 +184,8 @@ const Game = () => {
 
         if (curPlayerLocation + numToMove >= squares.length-(1+notMovableSquares)) {
             newPlayerLocation = curPlayerLocation + numToMove - (squares.length-(1+notMovableSquares));
-            console.log(numToMove)
-            console.log(curPlayerLocation)
-            console.log(newPlayerLocation)
-            console.log(squares[newPlayerLocation])
+            console.log("Pass Go")
+            handleGo(curPlayerTurn.current);
         } else {
             newPlayerLocation += numToMove;
         }
@@ -202,6 +215,7 @@ const Game = () => {
                 break;
             case CellTypes.Go:
                 console.log("Passing go, get money!");
+                handleGo(curPlayerTurn.current);
                 break;
             case CellTypes.Jail:
                 console.log("At jail");
@@ -377,11 +391,13 @@ const Game = () => {
         let newSquares = squares;
         console.log(curPlayer.current)
         newSquares[newSquares.length -1].curr = players[curPlayer.current-1].color;
+        newSquares[newSquares.length -1].money= players[curPlayer.current-1].money;
         setSquares([...newSquares]);
     }
     const setDrawChanceAlert = (action) => {
         setDrawAlert(action);
     };
+
     return (
         <Box>
             <TradeDialog
@@ -397,8 +413,8 @@ const Game = () => {
                 open={propertyAlert}
                 handleAccept={handleNewPropertyAccept}
                 handleDecline={handleNewPropertyDecline}
-                title="New project"
-                content="Do you want to develop this project?"
+                title="New Property"
+                content="Do you want to buy this new property?"
             />
             <ShuttleAlert
                 max={squares.length-2}
@@ -486,6 +502,24 @@ const Game = () => {
                     }
                 >
                     You rolled Chance, so money will be taken from the community chest.
+                </Alert>
+            </Collapse>
+            <Collapse in={GoAlert}>
+                <Alert
+                    sx={{ width: "15vw"}}
+                    severity="info"
+                    variant="filled"
+                    action={
+                        <IconButton
+                            color="inherit"
+                            size="small"
+                            onClick={() => setGoAlert(false)}
+                        >
+                            <CloseIcon fontSize="inherit"/>
+                        </IconButton>
+                    }
+                >
+                    A player passed GO. They get $45, and the community chest get $5
                 </Alert>
             </Collapse>
         </Box>

@@ -6,7 +6,6 @@ const CellText = (props) => <Typography sx={{fontSize: "13px"}}>{props.children}
 
 
 const Cell = forwardRef((props, ref) => {
-	console.log(props.description);
 	return (
 		<Box
 			ref={ref}
@@ -104,7 +103,8 @@ const Cell = forwardRef((props, ref) => {
 				{props.type === CellTypes.Status ? (
 					<>
 						<CellText>Player: {props.curr}</CellText>
-						<CellText>Dice roll: {props.move}</CellText>
+						<CellText>Current player's money: ${props.money}</CellText>
+						<CellText>Previous Dice roll: {props.move}</CellText>
 						{/*<Typography>Player: {props.curr}</Typography>
 						<Typography>Dice roll: {props.move}</Typography>*/}
 					</>
