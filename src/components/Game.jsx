@@ -170,10 +170,10 @@ const Game = () => {
         setSquares([...newSquares]);
     };
     const movePlayer = (numToMove) => {
-        setChanceAlert(false);
+        //setChanceAlert(false);
         //setDrawAlert(false);
-        setErrorAlert(false);
-        setGoAlert(false);
+        //setErrorAlert(false);
+        //setGoAlert(false);
 
         console.log(numToMove);
         let newPlayers = players;
@@ -480,139 +480,6 @@ const Game = () => {
                     />
                 </Box>
             </Box>
-            <GeneralAlert
-                open={errorAlert}
-                severity="error"
-                variant="filled"
-                action={
-                    <IconButton
-                        color="inherit"
-                        size="small"
-                        onClick={() => setErrorAlert(false)}
-                    >
-                        <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                }
-            >
-                Not enough money!
-            </GeneralAlert>
-            {/*<Collapse in={errorAlert}>
-                <Alert
-                    sx={{ width: "15vw" }}
-                    severity="error"
-                    variant="filled"
-                    action={
-                        
-                    }
-                >
-                    Not enough money!
-                </Alert>
-                </Collapse>*/}
-            <GeneralAlert
-                open={chanceAlert}
-                severity="info"
-                variant="filled"
-                action={
-                    <IconButton
-                        color="inherit"
-                        size="small"
-                        onClick={() => setChanceAlert(false)}
-                    >
-                        <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                }
-            >
-                You landed on Chance, so money will be taken from the community
-                chest.
-            </GeneralAlert>
-
-            {/*<Collapse in={chanceAlert}>
-                <Alert
-                    sx={{ width: "15vw"}}
-                    severity="info"
-                    variant="filled"
-                    action={
-                        <IconButton
-                            color="inherit"
-                            size="small"
-                            onClick={() => setChanceAlert(false)}
-                        >
-                            <CloseIcon fontSize="inherit"/>
-                        </IconButton>
-                    }
-                >
-                    You landed on Chance, so money will be taken from the community chest.
-                </Alert>
-                </Collapse>*/}
-            <GeneralAlert
-                open={drawChanceAlert}
-                severity="info"
-                variant="filled"
-                action={
-                    <IconButton
-                        color="inherit"
-                        size="small"
-                        onClick={() => setDrawChanceAlert(false)}
-                    >
-                        <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                }
-            >
-                You rolled chance, so money will be taken from the community
-                chest
-            </GeneralAlert>
-            {/*<Collapse in={drawChanceAlert}>
-                <Alert
-                    sx={{ width: "15vw"}}
-                    severity="info"
-                    variant="filled"
-                    action={
-                        <IconButton
-                            color="inherit"
-                            size="small"
-                            onClick={() => setDrawAlert(false)}
-                        >
-                            <CloseIcon fontSize="inherit"/>
-                        </IconButton>
-                    }
-                >
-                    You rolled Chance, so money will be taken from the community chest.
-                </Alert>
-                </Collapse>*/}
-            <GeneralAlert
-                open={goAlert}
-                severity="info"
-                variant="filled"
-                action={
-                    <IconButton
-                        color="inherit"
-                        size="small"
-                        onClick={() => setGoAlert(false)}
-                    >
-                        <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                }
-            >
-                A player passed Go. They get $45 and the community chest gets %5
-            </GeneralAlert>
-            {/*<Collapse in={GoAlert}>
-                <Alert
-                    sx={{ width: "15vw"}}
-                    severity="info"
-                    variant="filled"
-                    action={
-                        <IconButton
-                            color="inherit"
-                            size="small"
-                            onClick={() => setGoAlert(false)}
-                        >
-                            <CloseIcon fontSize="inherit"/>
-                        </IconButton>
-                    }
-                >
-                    A player passed GO. They get $45, and the community chest get $5
-                </Alert>
-                </Collapse>*/}
         </Box>
     );
 };

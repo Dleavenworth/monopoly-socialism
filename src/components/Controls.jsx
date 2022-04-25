@@ -6,11 +6,15 @@ import { Casino, CurrencyExchange, Close as CloseIcon} from '@mui/icons-material
 import GeneralAlert from "./GeneralAlert"
 
 const Controls = (props) => {
-	const drawerWidth = "16vw";
+	const drawerWidth = "17vw";
 
 	let currentTotal = props.currentTotal;
 
 	const rollDie = () => {
+        props.setChance(false);
+        props.setDraw(false);
+        props.setError(false);
+        props.setGo(false);
 		let movementDie = Math.floor(Math.random() * 6) + 1;
 		console.log("Movement: " + movementDie);
 		let actionDie = Math.floor(Math.random() * 6) + 1;
